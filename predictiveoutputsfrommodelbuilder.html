@@ -1,199 +1,373 @@
 <!DOCTYPE html>
-<html>
-<title>Predictive Outputs from Model Builder - Lead Conversion Prediction</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Outputs from Model Builder - Lead Conversion Prediction</title>
+    <style>
+        :root {
+            --primary-color: #0176d3; /* Salesforce Blue */
+            --text-color: #2b2b2b;
+            --bg-color: #f3f3f3;
+            --card-bg: #ffffff;
+            --border-color: #dddbda;
+            --code-bg: #16325c;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.5rem;
+            color: #032d60;
+            margin-top: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-size: 1.2rem;
+            color: #032d60;
+            margin-top: 20px;
+        }
+        .context-box {
+            background-color: #f0f8ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .context-box h4 {
+            margin: 0 0 5px 0;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        .context-box p {
+            margin: 0;
+            font-style: italic;
+        }
+        .takeaway-box {
+            background-color: #eaf5ea;
+            border-left: 4px solid #2e7d32;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .takeaway-box h4 {
+            margin: 0 0 5px 0;
+            color: #2e7d32;
+            font-size: 1.1rem;
+        }
+        .takeaway-box p {
+            margin: 0;
+        }
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .warning-box h4 {
+            margin: 0 0 5px 0;
+            color: #b78103;
+            font-size: 1.1rem;
+        }
+        .warning-box p {
+            margin: 0;
+        }
+        .steps {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .steps > li {
+            margin-bottom: 25px;
+            padding-left: 30px;
+            position: relative;
+        }
+        .steps > li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #032d60;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .architecture-container {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+        .arch-node {
+            background: #f4f6f9;
+            border: 1px solid #b0adab;
+            border-radius: 4px;
+            padding: 12px;
+            text-align: center;
+            min-width: 220px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .arch-node strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .arch-node span {
+            font-size: 0.85rem;
+            color: #514f4d;
+        }
+        .arch-arrow {
+            font-weight: bold;
+            color: #706e6b;
+        }
+        .arch-arrow.vertical {
+            margin: -5px 0;
+        }
+        ul.metadata-list {
+            padding-left: 20px;
+        }
+        ul.metadata-list li {
+            margin-bottom: 12px;
+        }
+        code {
+            background: #f4f6f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9rem;
+        }
+        pre {
+            background: var(--code-bg);
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
 <body>
 
-<h1>Predictive Outputs from Model Builder - Lead Conversion Prediction</h1>
+<div class="container">
 
-<h5>Context and Why?</h5>
-  
-<p>
-As a Salesforce consultant, adding the <b>Einstein 1 Platform's predictive capabilities to your toolbelt is a major win.</b> </br>
-This specific skill focuses on bridging the gap between raw data in <ul>Data Cloud and operationalizing AI for sales teams.</ul>
-</p>
+    <header>
+        <h1>Predictive Outputs from Model Builder</h1>
+        <p style="font-size: 1.2rem; color: #514f4d; margin-top: 5px;">Operationalizing AI for Lead Conversion Prediction</p>
+    </header>
 
+    <section class="context-box">
+        <h4>Context &amp; Why It Matters</h4>
+        <p>As a Salesforce consultant, adding the <strong>Einstein 1 Platform's predictive capabilities</strong> to your toolbelt is a major win. This specific skill focuses on bridging the gap between raw data in Data Cloud and operationalizing AI for sales teams.</p>
+    </section>
 
-<div>
+    <main>
+        <h2>1. What the Solution Does</h2>
+        <p>The Predictive Outputs from Model Builder allows you to build a custom AI machine learning model to predict the likelihood of a lead converting. Instead of leaving that prediction locked inside Data Cloud, this solution brings it directly into the core CRM, reasons about it using generative AI, and displays it beautifully on the Lead record page for sales reps.</p>
 
+        <h2>2. Solution Description</h2>
+        <p><strong>The Problem:</strong> Sales reps waste time chasing low-quality leads because they lack insight into which leads are mathematically most likely to convert based on historical data.</p>
+        <p><strong>The Solution:</strong> A predictive Lead Conversion model built in Einstein Studio (Model Builder) that scores leads using unified Data Cloud data. The score is pulled into a prompt template via Prompt Builder where generative AI creates a quick summary of why the lead is scored that way, and the entire payload is surfaced dynamically on the lightning page via Flow Builder.</p>
 
-Here is a high-level overview, </br>
+        <h2>3. High-Level Architecture</h2>
+        <p>The solution relies on four key components of the Salesforce ecosystem working seamlessly together:</p>
 
-<b>1. What the Solution Does </b>
-The Predictive Outputs from Model Builder allows you how to build a custom AI machine learning model to predict the likelihood of a lead converting. 
+        <div class="architecture-container">
+            <div class="architecture-grid">
+                <div class="arch-row">
+                    <div class="arch-node">
+                        <strong>Data Cloud</strong>
+                        <span>Unified Data Profiles</span>
+                    </div>
+                    <div class="arch-arrow">&rarr;</div>
+                    <div class="arch-node">
+                        <strong>Einstein Studio / Model Builder</strong>
+                        <span>Predictive ML Model: Lead Conversion Score</span>
+                    </div>
+                </div>
+                <div class="arch-arrow vertical">&darr;</div>
+                <div class="arch-row">
+                    <div class="arch-node">
+                        <strong>Lightning Record Page</strong>
+                        <span>End User UI Component</span>
+                    </div>
+                    <div class="arch-arrow">&larr;</div>
+                    <div class="arch-node">
+                        <strong>Screen Flow</strong>
+                        <span>Invokes Prompt</span>
+                    </div>
+                    <div class="arch-arrow">&larr;</div>
+                    <div class="arch-node">
+                        <strong>Prompt Builder</strong>
+                        <span>Grounds data &amp; structures prompt</span>
+                    </div>
+                </div>
+            </div>
 
-Instead of leaving that prediction locked inside Data Cloud, it shows you how to bring it directly into the core CRM, reason about it using generative AI, 
-and display it beautifully on the Lead record page for sales reps.
+            <ul>
+                <li><strong>Data Cloud:</strong> Acts as the data foundation, housing the historical lead data needed to train the model.</li>
+                <li><strong>Einstein Studio (Model Builder):</strong> The predictive engine where the Machine Learning (ML) model is created, configured, and trained to output a "Predicted Conversion" score.</li>
+                <li><strong>Prompt Builder:</strong> The generative layer. It takes the predictive score, pairs it with CRM lead data (grounding), and instructs an LLM to generate a natural-language reason behind the score.</li>
+                <li><strong>Flow Builder (Screen Flow):</strong> The orchestration layer. It runs on the Lead page, triggers the prompt template, and serves the response directly to the user interface.</li>
+            </ul>
+        </div>
 
-  
-</div>
+        <h2>4. Implementation Steps (5-Minute Summary)</h2>
+        <p>You can build this solution in these four sequential stages:</p>
+        
+        <ul class="steps">
+            <li>
+                <span class="step-title">Step 1: Train the Predictive Model in Einstein Studio (~1 min)</span>
+                Navigate to Einstein Studio (Data Cloud) and create a new model using Model Builder. Choose a Predictive Model (typically using the binary classification route). Select your training dataset (historical Data Cloud data), define the target outcome variable (e.g., <code>IsConverted = True</code>), and train the model to generate the Predicted Conversion score.
+            </li>
+            <li>
+                <span class="step-title">Step 2: Connect the Prediction to the Core CRM (~1 min)</span>
+                Once trained, activate the model in Einstein Studio. Ensure the model's outputs are accessible to core Salesforce objects so they can be seamlessly queried by automation tools.
+            </li>
+            <li>
+                <span class="step-title">Step 3: Author the GenAI Prompt Template (~1.5 min)</span>
+                Open Prompt Builder and create a new Flex Prompt Template. Set the target object as the Lead. Insert the predictive model's score as a dynamic resource merge field (grounding the prompt). Finally, write your system instructions: <br>
+                <em>"You are an AI sales assistant. Take the Lead's prediction score of {!Model_Score} and summarize the key reasons why this lead is likely or unlikely to convert in 2 sentences."</em>
+            </li>
+            <li>
+                <span class="step-title">Step 4: Build the UI Screen Flow &amp; Deploy (~1.5 min)</span>
+                Create a new Screen Flow that triggers automatically when a user views a Lead record. Add an Action element to invoke your newly created Prompt Template, passing the current record's ID into the prompt. Add a Screen element and place a Display Text component on it to show the rich-text output generated by the prompt. Save, activate, and drag the Screen Flow onto your Lead Lightning Record Page using the Lightning App Builder.
+            </li>
+        </ul>
 
-<div>
+        <div class="takeaway-box">
+            <h4>Consultant Takeaway</h4>
+            <p>The true beauty of this architecture is that it is entirely <strong>low-code</strong>. You are combining traditional predictive AI (scoring) with modern generative AI (text summarization) without writing a single line of Apex or Python.</p>
+        </div>
 
-<b>2. Solution Description </b> </br>
-The Problem: Sales reps waste time chasing low-quality leads because they lack insight into which leads are mathematically most likely to convert based on historical data. </br>
+        <h2>Meta-data for Git Repository</h2>
+        <p>To move the solution built in a sandbox through a CI/CD pipeline and extract it to a Git repository, you need to grab the metadata components for the core CRM, the AI/Prompt layers, and the Data Cloud configurations.</p>
+        <p>Use at least <strong>API Version 60.0 or higher</strong> in your <code>sfdx-project.json</code> or <code>package.xml</code> manifest, as the newer generative AI metadata types are not supported in older versions.</p>
+        <p>The precise metadata types you can extract using the Salesforce CLI (<code>sf project retrieve</code>) are organized by architectural layer below:</p>
 
-The Solution: A predictive Lead Conversion model built in Einstein Studio (Model Builder) that scores leads using unified Data Cloud data. </br>
-The score is pulled into a prompt template via Prompt Builder where generative AI creates a quick summary of why the lead is scored that way, 
-and the entire payload is surfaced dynamically on the lightning page via Flow Builder. </br>
-  
-</div>
-<div>
-<b>3. High-Level Architecture </b>
-The solution relies on four key components of the Salesforce ecosystem working seamlessly together: </br>
+        <h3>1. The Generative AI &amp; Predictive Layer</h3>
+        <p>These are the core components built using Prompt Builder and Einstein Studio:</p>
+        <ul class="metadata-list">
+            <li><strong>GenAiPromptTemplate:</strong> Contains your prompt template instructions, grounding configurations, and target object associations. <br><em>File extension:</em> <code>.genAiPromptTemplate</code> (stored in the <code>genAiPromptTemplates/</code> folder).</li>
+            <li><strong>GenAiPromptTemplateActv:</strong> Captures whether the prompt template version is actively turned on or hidden from the org. <br><em>File extension:</em> <code>.genAiPromptTemplateActivation</code> (stored in the <code>genAiPromptTemplateActivations/</code> folder).</li>
+            <li><strong>DiscoveryGoal:</strong> If your Model Builder model was deployed as a custom prediction definition in core CRM, it maps to this type. It stores the metadata associated with the model's deployment, target variables, and field mappings. <br><em>File extension:</em> <code>.discovery</code> (stored in the <code>discovery/</code> folder).</li>
+        </ul>
 
-  [ Data Cloud ] ----------> [ Einstein Studio / Model Builder ] </br>
-  (Unified Data Profiles)      (Predictive ML Model: Lead Conversion Score) </br>
-                                                 | </br>
-                                                 v </br>
-  [ Lightning Record Page ] <--- [ Screen Flow ] <--- [ Prompt Builder ] </br>
-  (End User UI Component)     (Invokes Prompt)     (Grounds data & structures prompt)</br>
+        <h3>2. The Orchestration &amp; UI Layer (Core CRM)</h3>
+        <p>These elements handle running the automation and displaying the outcome to the sales team:</p>
+        <ul class="metadata-list">
+            <li><strong>Flow:</strong> The Screen Flow that invokes the generative AI action and captures the text output. <br><em>File extension:</em> <code>.flow</code> (stored in the <code>flows/</code> folder).</li>
+            <li><strong>FlexiPage:</strong> The Lightning Record Page layout for the Lead object where you dragged and dropped the Screen Flow component. <br><em>File extension:</em> <code>.flexipage</code> (stored in the <code>flexipages/</code> folder).</li>
+        </ul>
 
+        <h3>3. The Data Cloud Foundation Layer (Data 360)</h3>
+        <p>Because this prediction draws data from Data Cloud, you must track the underlying schema and mappings. In enterprise environments, these are packaged together in a Data Kit (<code>DataPackageKitDefinition</code>), but the singular components include:</p>
+        <ul class="metadata-list">
+            <li><strong>DataStreamDefinition:</strong> Represents the ingestion settings and source mapping (e.g., pulling lead data into the platform).</li>
+            <li><strong>DataSrcDataModelFieldMap:</strong> The critical mapping metadata that connects your Data Lake Objects (DLOs) to your unified Data Model Objects (DMOs).</li>
+            <li><strong>BatchDataTransform (or DataTransform):</strong> The metadata tracking how data was cleaned up, joined, or transformed before being fed to the machine learning model.</li>
+        </ul>
+
+        <h3>Example package.xml Manifest</h3>
+        <p>Create a <code>package.xml</code> file using the snippet below to extract the complete end-to-end solution directly into your local Git tracking folder:</p>
+
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Package xmlns="http://soap.sforce.com/2006/04/metadata"&gt;
+    &lt;!-- Prompt Builder Configurations --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;GenAiPromptTemplate&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;GenAiPromptTemplateActv&lt;/name&gt;
+    &lt;/types&gt;
     
-Data Cloud: Acts as the data foundation, housing the historical lead data needed to train the model. </br>
+    &lt;!-- Model Builder / Prediction Deployments --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DiscoveryGoal&lt;/name&gt;
+    &lt;/types&gt;
 
-Einstein Studio (Model Builder): The predictive engine where the Machine Learning (ML) model is created, configured, and trained to output a "Predicted Conversion" score. </br>
+    &lt;!-- Orchestration &amp; UI Layouts --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Lead_Conversion_AI_Orchestrator&lt;/members&gt; &lt;!-- Swap with your Flow API Name --&gt;
+        &lt;name&gt;Flow&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;Lead_Record_Page&lt;/members&gt; &lt;!-- Swap with your FlexiPage API Name --&gt;
+        &lt;name&gt;FlexiPage&lt;/name&gt;
+    &lt;/types&gt;
 
-Prompt Builder: The generative layer. It takes the predictive score, pairs it with CRM lead data (grounding), and instructs an LLM to generate a natural-language reason behind the score. </br>
+    &lt;!-- Data Cloud Schema &amp; Mapping Elements --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataPackageKitDefinition&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataSrcDataModelFieldMap&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;version&gt;65.0&lt;/version&gt;
+&lt;/Package&gt;</pre>
 
-Flow Builder (Screen Flow): The orchestration layer. It runs on the Lead page, triggers the prompt template, and serves the response directly to the user interface.</br>
-  
+        <div class="warning-box">
+            <h4>Consultant Sandbox Exception</h4>
+            <p>Keep in mind that custom Data Spaces and raw external infrastructure connections (like an active AWS S3 Bucket credential or a live Salesforce CRM companion connection) cannot be fully packaged and pulled via the Metadata API. You must manually establish those tenant connections in target environments before deploying your Git repository metadata.</p>
+        </div>
+    </main>
+
 </div>
-  
-
-<div>
-
-
-
-<b>4. Implementation Steps (5-Minute Summary) </b> </br>
-how to build this in these four sequential stages: </br>
-
-Step 1: Train the Predictive Model in Einstein Studio (~1 min) </br>
-Navigate to Einstein Studio (Data Cloud) and create a new model using Model Builder. </br>
-
-Choose Predictive Model (typically using the binary classification route). </br>
-
-Select your training dataset (historical Data Cloud data) and define the target outcome variable (e.g., IsConverted = True). </br>
-
-Train the model to generate the Predicted Conversion score. 
-
-Step 2: Connect the Prediction to the Core CRM (~1 min) </br>
-Once trained, activate the model in Einstein Studio. 
-
-Ensure the model's outputs are accessible to core Salesforce objects so they can be queried by automation tools.
-
-Step 3: Author the GenAI Prompt Template (~1.5 min) </br>
-Open Prompt Builder and create a new Flex Prompt Template.
-
-Set the target object as the Lead.
-
-Insert the predictive model's score as a dynamic resource merge field (grounding the prompt). </br>
-
-Write the system instructions: "You are an AI sales assistant. Take the Lead's prediction score of {!Model_Score} and summarize the key reasons why this lead is likely or unlikely to convert in 2 sentences."
-
-Step 4: Build the UI Screen Flow & Deploy (~1.5 min) </br>
-Create a new Screen Flow that triggers automatically when a user views a Lead record.
-
-Add an Action element to invoke your newly created Prompt Template, passing the current record's ID into the prompt.
-
-Add a Screen element and place a Display Text component on it to show the rich-text output generated by the prompt.
-
-Save, activate, and drag the Screen Flow onto your Lead Lightning Record Page using the Lightning App Builder. </br>
-
-<b>Consultant Takeaway: </b> The true beauty of this architecture is that it is entirely low-code. 
-You are combining traditional predictive AI (scoring) with modern generative AI (text summarization) without writing a single line of Apex or Python.
-
-</div>   
-  
-  
-<h3>Meta-data for Git Repository </h3>
-
-To move the solution built in sandbox through a CI/CD pipeline and extract it to a Git repository, you need to grab the metadata components for the core CRM, the AI/Prompt layers, and the Data Cloud configurations.</br>
-
-Use at least API Version 60.0 or higher in your sfdx-project.json or package.xml manifest, as the newer generative AI metadata types are not supported in older versions.</br>
-
-The precise metadata types you can extract using the Salesforce CLI (sf project retrieve) are organized by architectural layer below:</br>
-
-1. The Generative AI & Predictive Layer</br>
-These are the core components built using Prompt Builder and Einstein Studio:</br>
-
-GenAiPromptTemplate: This contains your prompt template instructions, the grounding configurations, and target object associations.</br>
-
-File extension: .genAiPromptTemplate (stored in the genAiPromptTemplates/ folder).</br>
-
-GenAiPromptTemplateActv: Captures whether the prompt template version is actively turned on or hidden from the org.</br>
-
-File extension: .genAiPromptTemplateActivation (stored in the genAiPromptTemplateActivations/ folder).</br>
-
-DiscoveryGoal: If your Model Builder model was deployed as a custom prediction definition in core CRM, it maps to this type. It stores the metadata associated with the model's deployment, target variables, and field mappings.</br>
-
-File extension: .discovery (stored in the discovery/ folder).</br>
-
-2. The Orchestration & UI Layer (Core CRM)</br>
-These elements handle running the automation and displaying the outcome to the sales team:</br>
-
-Flow: The Screen Flow that invokes the generative AI action and captures the text output.
-
-File extension: .flow (stored in the flows/ folder).</br>
-
-FlexiPage: The Lightning Record Page layout for the Lead object where you dragged and dropped the Screen Flow component.</br>
-
-File extension: .flexipage (stored in the flexipages/ folder).</br>
-
-3. The Data Cloud Foundation Layer (Data 360)</br>
-Because this prediction draws data from Data Cloud, you must track the underlying schema and mappings. In enterprise environments, these are packaged together in a Data Kit (DataPackageKitDefinition), but the singular components include:</br>
-
-DataStreamDefinition: Represents the ingestion settings and source mapping (e.g., pulling lead data into the platform).</br>
-
-DataSrcDataModelFieldMap: The critical mapping metadata that connects your Data Lake Objects (DLOs) to your unified Data Model Objects (DMOs).</br>
-
-BatchDataTransform (or DataTransform): The metadata tracking how data was cleaned up, joined, or transformed before being fed to the machine learning model.</br>
-
-Example package.xml Manifest</br>
-Create a package.xml file using the snippet below to extract the complete end-to-end solution directly into your local Git tracking folder:</br>
-<div>
-XML
-<?xml version="1.0" encoding="UTF-8"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <!-- Prompt Builder Configurations -->
-    <types>
-        <members>*</members>
-        <name>GenAiPromptTemplate</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>GenAiPromptTemplateActv</name>
-    </types>
-    
-    <!-- Model Builder / Prediction Deployments -->
-    <types>
-        <members>*</members>
-        <name>DiscoveryGoal</name>
-    </types>
-
-    <!-- Orchestration & UI Layouts -->
-    <types>
-        <members>Lead_Conversion_AI_Orchestrator</members> <!-- Swap with your Flow API Name -->
-        <name>Flow</name>
-    </types>
-    <types>
-        <members>Lead_Record_Page</members> <!-- Swap with your FlexiPage API Name -->
-        <name>FlexiPage</name>
-    </types>
-
-    <!-- Data Cloud Schema & Mapping Elements -->
-    <types>
-        <members>*</members>
-        <name>DataPackageKitDefinition</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>DataSrcDataModelFieldMap</name>
-    </types>
-    <version>65.0</version>
-</Package>
-</div>
-  Consultant Sandbox Exception: Keep in mind that custom Data Spaces and raw external infrastructure connections (like an active AWS S3 Bucket credential or a live Salesforce CRM companion connection) cannot be fully packaged and pulled via the Metadata API. You must manually establish those tenant connections in target environments before deploying your Git repository metadata.
 
 </body>
 </html>
-
