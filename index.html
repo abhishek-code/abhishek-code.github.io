@@ -1,4 +1,209 @@
-Salesforce Agentic Enterprise Solutions
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesforce Agentic Enterprise Solutions</title>
+    <style>
+        :root {
+            --primary: #0176D3;
+            --primary-dark: #014B82;
+            --accent: #00A1E0;
+            --text-main: #181818;
+            --text-muted: #5C5C5C;
+            --bg-light: #F3F3F3;
+            --bg-card: #FFFFFF;
+            --border: #DDDBDA;
+            --code-bg: #161B22;
+            --code-text: #E6EDF3;
+            --warning-bg: #FFF7E6;
+            --warning-border: #FFA500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        aside nav a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        aside nav a.active {
+            background-color: #E8F4FD;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        aside nav a:hover:not(.active) {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .lead {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-link-card {
+            border: 1px solid var(--border);
+            background-color: var(--bg-light);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .solution-link-card:hover {
+            border-color: var(--primary);
+        }
+
+        .solution-link-card a {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .solution-link-card a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <h1>Salesforce Agentic Enterprise Solutions</h1>
+        <nav>
+            <a href="#" class="active">Lead Conversion Architecture</a>
+        </nav>
+      <nav>
+            <a href="#" class="active">Advanced RAG with Data 360 Architecture</a>
+        </nav>
+    </aside>
+
+    <main>
+        <!-- Section 1: Core Solution -->
+        <section id="lead-conversion">
+            <h2>Predictive Outputs from Model Builder</h2>
+            <p class="lead">Integrating Data Cloud intelligence models with core CRM workflows to drive higher conversion rates.</p>
+            <p>This solution covers how to leverage Custom Machine Learning Models (CMLM) or out-of-the-box templates inside Einstein 360 Model Builder to scoring leads dynamically. By synthesizing customer behavioral data across unified enterprise streams, agents and automation layers can react to real-time propensity scores.</p>
+            
+            <div class="solution-link-card">
+                <a href="./predictiveoutputsfrommodelbuilder.html">
+                    Predictive Outputs from Model Builder for Lead Conversion Solution &rarr;
+                </a>
+            </div>
+        </section>
+ <!-- Section 2: Core Solution -->
+        <section id="adv-rag-data360">
+            <h2>Advanced RAG with Data 360</h2>
+            <p class="lead">Integrating Data Cloud intelligence models with core CRM workflows to drive higher conversion rates.</p>
+            <p>This module covers how to extend Salesforce AI past basic record grounding and into true semantic search using Data 360 (Data Cloud).The RAG pipeline parses unstructured Case text fields (<code class="inline">Subject</code> and <code class="inline">Description</code>) to securely isolate contextual answers.</p>
+            
+            <div class="solution-link-card">
+                <a href="./Solutions/AdvancedRAGwithDataCloud.html">
+                    Advanced RAG with Data 360 Solution &rarr;
+                </a>
+            </div>
+        </section>
 
 
-<a href="./predictiveoutputsfrommodelbuilder.html">Predictive Outputs from Model Builder for Lead Conversion Solution </a>
+
+
+
+
+
+      
+    </main>
+
+</body>
+</html>
