@@ -4,196 +4,257 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predictive Outputs from Model Builder - Lead Conversion Prediction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau Semantics in Data 360 - Solution Architecture</title>
     <style>
         :root {
-            --primary-color: #0176d3; /* Salesforce Blue */
-            --text-color: #2b2b2b;
-            --bg-color: #f3f3f3;
-            --card-bg: #ffffff;
-            --border-color: #dddbda;
-            --code-bg: #16325c;
+            --primary: #0176D3;
+            --primary-dark: #014B82;
+            --accent: #00A1E0;
+            --text-main: #181818;
+            --text-muted: #5C5C5C;
+            --bg-light: #F3F3F3;
+            --bg-card: #FFFFFF;
+            --border: #DDDBDA;
+            --code-bg: #161B22;
+            --code-text: #E6EDF3;
+            --warning-bg: #FFF7E6;
+            --warning-border: #FFA500;
         }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        h1 {
-            color: var(--primary-color);
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 1.5rem;
-            color: #032d60;
-            margin-top: 30px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-        h3 {
-            font-size: 1.2rem;
-            color: #032d60;
-            margin-top: 20px;
-        }
-        .context-box {
-            background-color: #f0f8ff;
-            border-left: 4px solid var(--primary-color);
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-        .context-box h4 {
-            margin: 0 0 5px 0;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-        }
-        .context-box p {
-            margin: 0;
-            font-style: italic;
-        }
-        .takeaway-box {
-            background-color: #eaf5ea;
-            border-left: 4px solid #2e7d32;
-            padding: 15px 20px;
-            margin: 25px 0;
-            border-radius: 0 4px 4px 0;
-        }
-        .takeaway-box h4 {
-            margin: 0 0 5px 0;
-            color: #2e7d32;
-            font-size: 1.1rem;
-        }
-        .takeaway-box p {
-            margin: 0;
-        }
-        .warning-box {
-            background-color: #fff8e1;
-            border-left: 4px solid #ffb300;
-            padding: 15px 20px;
-            margin: 25px 0;
-            border-radius: 0 4px 4px 0;
-        }
-        .warning-box h4 {
-            margin: 0 0 5px 0;
-            color: #b78103;
-            font-size: 1.1rem;
-        }
-        .warning-box p {
-            margin: 0;
-        }
-        .steps {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        .steps > li {
-            margin-bottom: 25px;
-            padding-left: 30px;
-            position: relative;
-        }
-        .steps > li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            top: 2px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            background-color: var(--bg-light);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: bold;
         }
-        .step-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #032d60;
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        aside nav a {
             display: block;
-            margin-bottom: 5px;
-        }
-        .architecture-container {
-            background: #fdfdfd;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        .architecture-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-        .arch-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-        }
-        .arch-node {
-            background: #f4f6f9;
-            border: 1px solid #b0adab;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
             border-radius: 4px;
-            padding: 12px;
-            text-align: center;
-            min-width: 220px;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        aside nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .arch-node strong {
-            color: var(--primary-color);
-            display: block;
-            margin-bottom: 4px;
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
         }
-        .arch-node span {
-            font-size: 0.85rem;
-            color: #514f4d;
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
         }
-        .arch-arrow {
-            font-weight: bold;
-            color: #706e6b;
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
         }
-        .arch-arrow.vertical {
-            margin: -5px 0;
+
+        .lead {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
         }
-        ul.metadata-list {
-            padding-left: 20px;
-        }
-        ul.metadata-list li {
-            margin-bottom: 12px;
-        }
-        code {
-            background: #f4f6f9;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-            font-size: 0.9rem;
-        }
-        pre {
-            background: var(--code-bg);
-            color: #f8f8f2;
-            padding: 20px;
+
+        /* Architecture ASCII box fallback/styling */
+        .architecture-box {
+            background-color: var(--code-bg);
+            color: #89DDFF;
+            padding: 1.5rem;
             border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.85rem;
             overflow-x: auto;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            white-space: pre;
+            margin: 1.5rem 0;
+            border: 1px solid #30363D;
+        }
+
+        /* Steps list styling */
+        .step-block {
+            border-left: 4px solid var(--primary);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 3px;
+            margin-right: 0.75rem;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Code Block Styling */
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
             font-size: 0.9rem;
-            line-height: 1.4;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callouts */
+        .callout {
+            background-color: #E8F4FD;
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .warning-callout {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .warning-title {
+            font-weight: 700;
+            color: #B06000;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
