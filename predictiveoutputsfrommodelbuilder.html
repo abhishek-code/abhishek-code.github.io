@@ -198,7 +198,17 @@
     </style>
 </head>
 <body>
-
+  <aside>
+        <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
+        <h1>Predictive Outputs from Model Builder</h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#description">2. Solution Description</a>
+            <a href="#architecture">3. High-Level Architecture</a>
+            <a href="#implementation">4. 5-Minute Implementation</a>
+            <a href="#metadata">5. Metadata & Deployment</a>
+        </nav>
+    </aside>
 <div class="container">
 
     <header>
@@ -212,16 +222,21 @@
     </section>
 
     <main>
+         <section id="overview">
         <h2>1. What the Solution Does</h2>
         <p>The Predictive Outputs from Model Builder allows you to build a custom AI machine learning model to predict the likelihood of a lead converting. Instead of leaving that prediction locked inside Data Cloud, this solution brings it directly into the core CRM, reasons about it using generative AI, and displays it beautifully on the Lead record page for sales reps.</p>
+        </section>
 
+        <section id="description">
         <h2>2. Solution Description</h2>
         <p><strong>The Problem:</strong> Sales reps waste time chasing low-quality leads because they lack insight into which leads are mathematically most likely to convert based on historical data.</p>
         <p><strong>The Solution:</strong> A predictive Lead Conversion model built in Einstein Studio (Model Builder) that scores leads using unified Data Cloud data. The score is pulled into a prompt template via Prompt Builder where generative AI creates a quick summary of why the lead is scored that way, and the entire payload is surfaced dynamically on the lightning page via Flow Builder.</p>
+         </section>
 
+        <section id="architecture">
         <h2>3. High-Level Architecture</h2>
         <p>The solution relies on four key components of the Salesforce ecosystem working seamlessly together:</p>
-
+        
         <div class="architecture-container">
             <div class="architecture-grid">
                 <div class="arch-row">
@@ -261,7 +276,9 @@
                 <li><strong>Flow Builder (Screen Flow):</strong> The orchestration layer. It runs on the Lead page, triggers the prompt template, and serves the response directly to the user interface.</li>
             </ul>
         </div>
+        </section>
 
+        <section id="implementation">
         <h2>4. Implementation Steps (5-Minute Summary)</h2>
         <p>You can build this solution in these four sequential stages:</p>
         
@@ -289,7 +306,9 @@
             <h4>Consultant Takeaway</h4>
             <p>The true beauty of this architecture is that it is entirely <strong>low-code</strong>. You are combining traditional predictive AI (scoring) with modern generative AI (text summarization) without writing a single line of Apex or Python.</p>
         </div>
-
+        </section>
+        
+        <section id="metadata">
         <h2>Meta-data for Git Repository</h2>
         <p>To move the solution built in a sandbox through a CI/CD pipeline and extract it to a Git repository, you need to grab the metadata components for the core CRM, the AI/Prompt layers, and the Data Cloud configurations.</p>
         <p>Use at least <strong>API Version 60.0 or higher</strong> in your <code>sfdx-project.json</code> or <code>package.xml</code> manifest, as the newer generative AI metadata types are not supported in older versions.</p>
@@ -368,6 +387,6 @@
     </main>
 
 </div>
-
+</section>
 </body>
 </html>
