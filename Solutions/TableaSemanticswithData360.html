@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau Semantics with Data 360 - Solution Architecture</title>
+</head>
+<body>
+    <aside>
+        <h1>Tableau Semantics in Data 360</h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#description">2. Solution Description</a>
+            <a href="#architecture">3. High-Level Architecture</a>
+            <a href="#implementation">4. Implementation Steps</a>
+            <a href="#metadata">5. Governance & Deployment</a>
+        </nav>
+    </aside>
+
+    <main>
+        <section id="overview">
+            <h2>1. Solution Overview</h2>
+            <p>Tableau Semantics standardizes business logic, data models, and analytical definitions across enterprise datasets in Data 360 (Data Cloud). By separating business concepts from underlying raw physical schema definitions, organizations can maintain a single, reusable semantic layer.</p>
+            <p>This solution establishes a unified metadata model where logical views, calculated measures, and aggregated metrics are defined once in Data 360 and natively consumed by Tableau, AI models, and downstream analytics applications without data duplication.</p>
+            <p>In this architecture, semantic models convert raw Data Model Objects (DMOs) into standardized logical domains, enabling reliable self-service analytics and consistent operational grounding.</p>
+        </section>
+
+        <section id="description">
+            <h2>2. Solution Description</h2>
+            <p><strong>The Problem:</strong> Fragmented enterprise data modeling creates conflicting KPI definitions across analytics teams. When business logic, calculations, and relationships are embedded separately in individual Tableau workbooks or downstream systems, data governance breaks down and maintenance costs rise.</p>
+            <div class="matrix-box">
+                <div class="matrix-header">The Semantic Model Matrix</div>
+                Tableau Semantics centralizes data mapping, logical relationships, and metric expressions directly within Data 360. This guarantees consistent calculation execution, enforces governance, and provides a unified interface for BI dashboards, Einstein AI agents, and custom query consumption.
+            </div>
+        </section>
+
+        <section id="architecture">
+            <h2>3. High-Level Solution Architecture</h2>
+            <p>The solution operates through an integrated abstraction pipeline within the Data 360 and Tableau platform layers:</p>
+            
+            <pre class="architecture-diagram">
+[ Physical Data Streams / DLOs ] 
+       │
+       ▼ (Ingestion &amp; Mapping)
+┌────────────────────────────────────────────────────────┐
+│               DATA 360 (DATA MODEL OBJECTS)            │
+│ 1. Core Data Model Objects (DMOs)                      │
+│ 2. Canonical Identity &amp; Relationship Mappings          │
+└──────────────────────────┬─────────────────────────────┘
+                           │ 
+                           ▼ Standardized Schema
+┌────────────────────────────────────────────────────────┐
+│                 TABLEAU SEMANTIC LAYER                 │
+│ 3. Semantic Models &amp; Logical Views                     │
+│ 4. Calculated Fields, Dimensions &amp; Metrics             │
+└──────────────────────────┬─────────────────────────────┘
+                           │ Centralized Business Logic
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│             CONSUMPTION &amp; ANALYTICS LAYER              │
+│ 5. Tableau Visualizations, Agentforce &amp; APIs           │
+└────────────────────────────────────────────────────────┘
+            </pre>
+
+            <ol>
+                <li><strong>Data Foundation Layer:</strong> External feeds and Salesforce native records are ingested via Data Streams, standardized into Data Lake Objects (DLOs), and mapped to canonical Data Model Objects (DMOs).</li>
+                <li><strong>Semantic Modeling Layer:</strong> Semantic models define logical entities, field mappings, and entity relationships over source DMOs, obscuring physical table complexities.</li>
+                <li><strong>Logical View & Transformation Layer:</strong> Custom joins, logical views, calculated fields, and centralized metrics are defined within the semantic model using standard expressions.</li>
+                <li><strong>Consumption Layer:</strong> Visualizations in Tableau, Agentforce grounding templates, and REST API queries consume the semantic objects natively, inheriting unified KPI rules automatically.</li>
+            </ol>
+        </section>
+
+        <section id="implementation">
+            <h2>4. Implementation Steps (5-Step Overview)</h2>
+            <p>The implementation sequence configures, validates, and deploys Tableau Semantics in Data 360 through five phases:</p>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 1</span>
+                    <span class="phase-title">Initialize the Semantic Model Structure</span>
+                </div>
+                <p>Define the foundational semantic container over active Data Model Objects (DMOs) within Data 360 Setup.</p>
+                <ul>
+                    <li>Navigate to <strong>Data 360 Setup &gt; Tableau Semantics</strong> and initiate a new Semantic Model.</li>
+                    <li>Select the primary <strong>Data Model Objects (DMOs)</strong> representing the core entity (e.g., <code>Sales Order</code>, <code>Customer</code>).</li>
+                    <li>Define primary and foreign key relationships between related DMOs to establish relational navigation paths.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 2</span>
+                    <span class="phase-title">Construct Logical Views</span>
+                </div>
+                <p>Build logical views to refine data representation, merge multiple tables, or simplify entity structures for business consumption.</p>
+                <ul>
+                    <li>Create a <strong>Logical View</strong> inside the semantic model workspace.</li>
+                    <li>Apply field selections, aliases, and filtering conditions to expose business-relevant dimensions while hiding raw physical fields.</li>
+                    <li>Validate relationship join types (e.g., <em>One-to-Many</em>, <em>Many-to-One</em>) to ensure accurate aggregation behavior during queries.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 3</span>
+                    <span class="phase-title">Define Calculated Fields and Metrics</span>
+                </div>
+                <p>Standardize key enterprise KPIs by authoring calculations directly at the semantic layer.</p>
+                <ul>
+                    <li>Add <strong>Calculated Fields</strong> using logical and mathematical functions over logical dimensions.</li>
+                    <li>Configure aggregated <strong>Metrics</strong> (e.g., <code>Total_Revenue = SUM(Order_Amount)</code>) to freeze calculation logic across all downstream tools.</li>
+                    <li>Assign standardized display names, field descriptions, data types, and formatting masks.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 4</span>
+                    <span class="phase-title">Test and Validate the Semantic Model</span>
+                </div>
+                <p>Verify data integrity, relationship evaluation, and calculation correctness prior to publishing.</p>
+                <ul>
+                    <li>Run test queries within the preview interface to validate logical output and metric results.</li>
+                    <li>Inspect auto-generated execution queries for performance bottlenecks or incorrect join conditions.</li>
+                    <li>Publish the semantic model to activate it across the Data 360 tenant.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 5</span>
+                    <span class="phase-title">Consume and Deploy via Analytics Interfaces</span>
+                </div>
+                <p>Expose published semantic models to external consumption endpoints.</p>
+                <ol>
+                    <li>Connect Tableau Cloud or Desktop to the published Data 360 Semantic Model.</li>
+                    <li>Verify dimensions, measures, and metrics surface cleanly without requiring manually defined joins.</li>
+                    <li>Expose semantic entities to Agentforce or custom API channels for unified metric grounding.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="metadata">
+            <h2>5. Metadata & Git Repository Blueprint</h2>
+            <p>To support automated CI/CD deployment pipelines across environments, deploy and manage semantic modeling definitions using this <code>package.xml</code> framework:</p>
+
+            <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Package xmlns="http://soap.sforce.com/2006/04/metadata"&gt;
+    &lt;!-- 1. DATA MODEL &amp; SCHEMA DEFINITION LAYER --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataModelObject&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;!-- 2. SEMANTIC LAYER &amp; METRIC CONFIGURATIONS --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;SemanticModel&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;SemanticView&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;MarketoMetricDefinition&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;version&gt;65.0&lt;/version&gt;
+&lt;/Package&gt;</code></pre>
+
+            <h3>Component Metadata Definitions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metadata Type</th>
+                        <th>Architectural Governance Target</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DataModelObject</strong></td>
+                        <td>Defines canonical schema entities, primary key constraints, and core field types.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SemanticModel</strong></td>
+                        <td>Houses logical entities, entity relationships, business aliases, and calculation rules.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SemanticView</strong></td>
+                        <td>Encapsulates customized logical view definitions, underlying joins, and field projections.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MarketoMetricDefinition</strong></td>
+                        <td>Stores enterprise aggregate metric definitions, formulas, and operational window rules.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <div class="warning-header">⚠️ Critical Manual Deployment Dependencies</div>
+                <ul>
+                    <li><strong>Source DMO Dependency:</strong> Deploy underlying Data Model Objects, Data Streams, and Data Kits prior to deploying the dependent <code>SemanticModel</code> metadata package.</li>
+                    <li><strong>Dataspace Context Verification:</strong> Ensure target environments contain matching Dataspace configurations; semantic models bound to custom dataspaces will fail if the target namespace is absent.</li>
+                    <li><strong>Permissions & Sharing Re-evaluation:</strong> Metadata deployments preserve structural logic but do not automatically grant permission sets to business personas. Reassign data access permissions in Data 360 Setup post-deployment.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
