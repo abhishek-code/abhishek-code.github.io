@@ -126,6 +126,73 @@
             border: 1px solid #30363D;
         }
 
+/* Dynamic Architecture Diagram Styling */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+
+
+
+        
         /* Steps list styling */
         .step-block {
             border-left: 4px solid var(--primary);
