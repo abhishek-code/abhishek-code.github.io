@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales and Service with Data 360 - Solution Blueprint</title>
+    <style>
+        :root {
+            --primary: #0176D3;
+            --primary-dark: #014B82;
+            --accent: #00A1E0;
+            --text-main: #181818;
+            --text-muted: #5C5C5C;
+            --bg-light: #F3F3F3;
+            --bg-card: #FFFFFF;
+            --border: #DDDBDA;
+            --code-bg: #161B22;
+            --code-text: #E6EDF3;
+            --warning-bg: #FFF7E6;
+            --warning-border: #FFA500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        aside nav a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        aside nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Dynamic Architecture Diagram Styling */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+        /* Steps list styling */
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Code Block Styling */
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callout / Warning Boxes */
+        .warning-box, .takeaway-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box {
+            background-color: #E8F4FD;
+            border-left-color: var(--primary);
+        }
+
+        .warning-box h4, .takeaway-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box h4 {
+            color: #B06000;
+        }
+
+        .takeaway-box h4 {
+            color: var(--primary-dark);
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .arch-row {
+                flex-direction: column;
+            }
+            .arch-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
+        <h1>Sales and Service with Data 360</h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#description">2. Solution Description</a>
+            <a href="#architecture">3. High-Level Architecture</a>
+            <a href="#implementation">4. 5-Minute Implementation</a>
+            <a href="#metadata">5. Metadata & Deployment</a>
+        </nav>
+    </aside>
+
+    <div class="container">
+        <main>
+            <section id="overview">
+                <h2>1. What the Solution Does</h2>
+                <p>Operationalizing Data 360 across Sales Cloud and Service Cloud</p>
+                <p>The Data 360 solution ingests, unifies, and harmonizes cross-cloud data streams into Salesforce Data Cloud, constructing a Unified Customer Profile. It operationalizes these harmonized data profiles directly within core Sales Cloud and Service Cloud environments, providing sales representatives and service agents real-time access to complete engagement histories and unified field attributes.</p>
+            </section>
+
+            <section id="description">
+                <h2>2. Solution Description</h2>
+                <p><strong>The Problem:</strong> Sales reps and service agents operate in disconnected environments with fragmented customer visibility. Customer contact records, opportunity context, engagement history, and support cases are siloed across isolated systems, leading to redundant communications and inefficient resolution workflows.</p>
+                <p><strong>The Solution:</strong> Native Data Stream ingestion connects Sales Cloud and Service Cloud objects into Data Lake Objects (DLOs) within Data Cloud. Identity Resolution rules harmonize disparate Account, Contact, and Lead records into Unified Data Model Objects (DMOs). Related List Enrichments and Copy Fields expose this unified data directly on native CRM record layouts.</p>
+            </section>
+
+            <section id="architecture">
+                <h2>3. High-Level Architecture</h2>
+                <p>The solution relies on four key components of the Salesforce ecosystem working seamlessly together:</p>
+                
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Sales &amp; Service Cloud</strong>
+                                <span>Source CRM Objects (Account, Contact, Case)</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>Data Cloud Ingestion</strong>
+                                <span>Data Streams &amp; Lake Objects (DLOs)</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Sales &amp; Service Page Layouts</strong>
+                                <span>Related List &amp; Field Copy Component UI</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>Data Cloud Enrichment</strong>
+                                <span>Unified Profile Data Actions &amp; Copy Fields</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>Identity Resolution</strong>
+                                <span>Match Rules &amp; Unified DMO Mapping</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li><strong>Sales &amp; Service Cloud:</strong> Functions as both the primary operational transactional data source and the end-user delivery interface.</li>
+                        <li><strong>Data Cloud Ingestion:</strong> Connects core objects via native Salesforce CRM Connectors to ingest standard and custom fields into Data Lake Objects (DLOs).</li>
+                        <li><strong>Identity Resolution &amp; Mapping:</strong> Maps DLOs to standard Data Model Objects (DMOs) and executes fuzzy/exact match reconciliation rules to build a Unified Profile.</li>
+                        <li><strong>Data Cloud Enrichment:</strong> Serves unified attributes and engagement records back to core CRM page layouts via Data Cloud Copy Fields and Related List Components.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="implementation">
+                <h2>4. Implementation Steps (5-Minute Summary)</h2>
+                <p>You can build this solution in these four sequential stages:</p>
+                
+                <ul class="steps">
+                    <li>
+                        <span class="step-title">Step 1: Configure Ingestion Data Streams (~1 min)</span><br>
+                        Navigate to Data Cloud Setup, select Salesforce CRM Connector, and create Data Streams for Account, Contact, Lead, and Case objects. Map the incoming source attributes to standard Data Lake Objects (DLOs).
+                    </li>
+                    <li>
+                        <span class="step-title">Step 2: Map to Data Model Objects &amp; Define Identity Resolution (~1 min)</span><br>
+                        Map DLO attributes to target Data Model Objects (Individual, Contact Point Email, Contact Point Phone, Account). Configure Identity Resolution rulesets using Exact Match on Email and Fuzzy Match on First Name/Last Name to generate Unified Individual profiles.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 3: Enable Data Cloud Copy Fields and Related Lists (~1.5 min)</span><br>
+                        Configure Data Cloud Related List Enrichments for the Contact and Account objects. Map Unified DMO fields to CRM target fields or surface external engagement records through Data Cloud Copy Fields.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 4: Update Lightning Page Layouts &amp; Test UI (~1.5 min)</span><br>
+                        Open Lightning App Builder for Sales and Service page layouts. Add the Data Cloud Related List and Unified Profile components onto the Account and Contact pages. Save, activate, and assign the updated pages to targeted Sales and Service profiles.
+                    </li>
+                </ul>
+
+                <div class="takeaway-box">
+                    <h4>Consultant Takeaway</h4>
+                    <p>This architecture is delivered completely <strong>low-code</strong>. Standard CRM connectors, out-of-the-box DMO mapping, and Data Cloud Enrichments allow cross-cloud data consolidation directly inside core CRM page layouts without custom API integrations or APEX code.</p>
+                </div>
+            </section>
+
+            <section id="metadata">
+                <h2>Meta-data for Git Repository</h2>
+                <p>To move the solution built in a sandbox through a CI/CD pipeline and extract it to a Git repository, you need to grab the metadata components for core CRM layouts, Data Cloud mappings, and package definitions.</p>
+                <p>Use at least <strong>API Version 60.0 or higher</strong> in your <code>sfdx-project.json</code> or <code>package.xml</code> manifest, as Data Cloud metadata types require modern API versioning.</p>
+                <p>The precise metadata types you can extract using the Salesforce CLI (<code>sf project retrieve</code>) are organized by architectural layer below:</p>
+
+                <h3>1. The Data Cloud Foundation &amp; Ingestion Layer</h3>
+                <p>These components control data streams, object maps, and package configurations:</p>
+                <ul class="metadata-list">
+                    <li><strong>DataStreamDefinition:</strong> Defines the source ingestion configurations connecting Sales/Service Cloud to DLOs.</li>
+                    <li><strong>DataSrcDataModelFieldMap:</strong> Contains field mapping configurations connecting Data Lake Objects (DLOs) to Data Model Objects (DMOs).</li>
+                    <li><strong>DataPackageKitDefinition:</strong> Packages Data Cloud components across environments into structured metadata bundles.</li>
+                </ul>
+
+                <h3>2. The Core Orchestration &amp; UI Layer (Sales &amp; Service Cloud)</h3>
+                <p>These elements manage page modifications and object configurations:</p>
+                <ul class="metadata-list">
+                    <li><strong>FlexiPage:</strong> Lightning Record Layouts for Account, Contact, and Case objects housing the Data Cloud components.</li>
+                    <li><strong>CustomField:</strong> Target fields modified or created to hold Data Cloud Copy Field data on core CRM objects.</li>
+                    <li><strong>Layout:</strong> Standard page layouts associated with Sales and Service user profiles.</li>
+                </ul>
+
+                <h3>Example package.xml Manifest</h3>
+                <p>Create a <code>package.xml</code> file using the snippet below to extract the complete end-to-end solution directly into your local Git tracking folder:</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Package xmlns="http://soap.sforce.com/2006/04/metadata"&gt;
+    &lt;!-- Data Cloud Schema &amp; Mapping Elements --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataStreamDefinition&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataSrcDataModelFieldMap&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataPackageKitDefinition&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;!-- Sales &amp; Service Cloud UI Layouts --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Account_Record_Page&lt;/members&gt;
+        &lt;members&gt;Contact_Record_Page&lt;/members&gt;
+        &lt;members&gt;Case_Record_Page&lt;/members&gt;
+        &lt;name&gt;FlexiPage&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;!-- Field Level Customizations --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Account.Unified_Profile_ID__c&lt;/members&gt;
+        &lt;members&gt;Contact.Unified_Profile_ID__c&lt;/members&gt;
+        &lt;name&gt;CustomField&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;version&gt;65.0&lt;/version&gt;
+&lt;/Package&gt;</code></pre>
+
+                <div class="warning-box">
+                    <h4>Consultant Sandbox Exception</h4>
+                    <p>Identity Resolution rulesets and active data stream connectors require post-deployment validation in target environments. Ensure the target Salesforce org has Data Cloud turned on and Salesforce CRM Data Cloud Connector permissions authorized prior to package deployment.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
