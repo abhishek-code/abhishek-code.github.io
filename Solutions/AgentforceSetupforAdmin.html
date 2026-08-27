@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agentforce Admin for Setup</title>
+    <title>Agentforce Setup for Admins - Solution Blueprint</title>
     <style>
         :root {
             --primary: #0176D3;
@@ -18,10 +18,6 @@
             --code-text: #E6EDF3;
             --warning-bg: #FFF7E6;
             --warning-border: #FFA500;
-            --success: #2E844A;
-            --purple: #7F5315;
-            --purple-bg: #F3E8FF;
-            --purple-text: #6B21A8;
         }
 
         * {
@@ -35,292 +31,7 @@
             color: var(--text-main);
             line-height: 1.6;
             background-color: var(--bg-light);
-            padding: 2rem 1rem;
-        }
-
-        /* Page Layout */
-        .container {
-            margin-left: 280px;
-            max-width: 1000px;
-            width: calc(100% - 280px);
-            padding: 3rem 4rem;
-            
-        }
-
-        .layout-grid {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-
-        /* Header & Breadcrumb */
-        .breadcrumb {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .breadcrumb a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        header {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            margin-bottom: 2rem;
-        }
-
-        header h1 {
-            font-size: 2.25rem;
-            color: var(--primary-dark);
-            margin-bottom: 0.75rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Pills & Badges */
-        .meta-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .pill {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .pill-blue { background-color: #E8F4FD; color: #0176D3; }
-        .pill-green { background-color: #E6F4EA; color: #137333; }
-        .pill-purple { background-color: var(--purple-bg); color: var(--purple-text); }
-        .pill-orange { background-color: #FEF7E0; color: #B06000; }
-
-        /* Main Content & Sections */
-        main {
-            margin-left: 280px;
-            max-width: 1000px;
-            width: calc(100% - 280px);
-            padding: 3rem 4rem;
-        }
-
-        .section-card {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            margin-bottom: 2.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-          
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            color: var(--primary-dark);
-            margin-bottom: 1.25rem;
-            border-bottom: 2px solid var(--bg-light);
-            padding-bottom: 0.5rem;
-        }
-
-        .heading-hash {
-            color: var(--accent);
-            margin-right: 0.25rem;
-        }
-
-        /* Problem / Solution Grid */
-        .ps-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .ps-box {
-            padding: 1.25rem;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-        }
-
-        .ps-box.problem {
-            background-color: #FDF2F2;
-            border-color: #F87171;
-        }
-
-        .ps-box.solution {
-            background-color: #F0FDF4;
-            border-color: #4ADE80;
-        }
-
-        .ps-box h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Diagram / Architecture Box */
-        .arch-code {
-            background-color: var(--code-bg);
-            color: #89DDFF;
-            padding: 1.25rem;
-            border-radius: 6px;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 0.825rem;
-            overflow-x: auto;
-            white-space: pre;
-            margin: 1.5rem 0;
-            border: 1px solid #30363D;
-            line-height: 1.4;
-        }
-
-        .arch-components {
-            margin-left: 1.25rem;
-        }
-
-        .arch-components li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Execution Timeline */
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            position: relative;
-            margin-left: 0.5rem;
-            padding-left: 1.5rem;
-            border-left: 2px solid var(--accent);
-        }
-
-        .timeline-item {
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -1.95rem;
-            top: 0.35rem;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--accent);
-        }
-
-        .timeline-title {
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-
-        .timeline-scope {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .timeline-desc {
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Hands-On Solutions / Exercises */
-        .exercise-box {
-            background-color: #FAFAFA;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .exercise-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .prompt-container {
-            background-color: #FFFFFF;
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--primary);
-            padding: 1rem;
-            border-radius: 4px;
-            margin: 1rem 0;
-            font-style: italic;
-            position: relative;
-        }
-
-        .prompt-tag {
-            display: inline-block;
-            font-style: normal;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            background: var(--primary);
-            color: white;
-            padding: 0.1rem 0.4rem;
-            border-radius: 2px;
-            margin-bottom: 0.5rem;
-        }
-
-        .exercise-steps {
-            margin-left: 1.25rem;
-        }
-
-        .exercise-steps li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Callouts */
-        .callout {
-            background-color: #E8F4FD;
-            border-left: 4px solid var(--accent);
-            padding: 1rem 1.25rem;
-            margin: 1.5rem 0;
-            border-radius: 0 6px 6px 0;
-        }
-
-        .callout-title {
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 0.25rem;
-        }
-
-        
-
-        /* Responsive Styles */
-        @media (max-width: 900px) {
-            .layout-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .ps-grid {
-                grid-template-columns: 1fr;
-            }
-
-            aside .sidebar-card {
-                position: static;
-            }
         }
 
         /* Sidebar Navigation */
@@ -359,202 +70,374 @@
             color: var(--primary);
         }
 
-    
-    
-    
-    
-    
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Architecture Diagram Styling */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+        /* Steps list styling */
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Code Block Styling */
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callout / Warning Boxes */
+        .warning-box, .takeaway-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box {
+            background-color: #E8F4FD;
+            border-left-color: var(--primary);
+        }
+
+        .warning-box h4, .takeaway-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box h4 {
+            color: #B06000;
+        }
+
+        .takeaway-box h4 {
+            color: var(--primary-dark);
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .arch-row {
+                flex-direction: column;
+            }
+            .arch-arrow {
+                transform: rotate(90deg);
+            }
+        }
     </style>
 </head>
 <body>
- <aside>
+    <aside>
         <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
-        <h1>Setup with Agentforce for Admins</h1>
+        <h1>Agentforce Setup for Admins</h1>
         <nav>
             <a href="#overview">1. Solution Overview</a>
             <a href="#description">2. Solution Description</a>
             <a href="#architecture">3. High-Level Architecture</a>
             <a href="#implementation">4. 5-Minute Implementation</a>
-            <a href="#solutions">5. Solution Examples</a>
+            <a href="#metadata">5. Metadata & Deployment</a>
         </nav>
     </aside>
-  <div class="container">
 
-      <div class="layout-grid">
-      
-      <!-- Main Content Column -->
-      <main>
-        
-        <!-- 1. Purpose -->
-        <section class="section-card" id="overview">
-          <h2>1. Solution Overview</h2>
-           <p>Architectural blueprint detailing how the Agentforce Setup Agent parses administrative natural language to provision schema, permissions, flows, and agentic studio metadata.</p> 
-          <p>
-            The <strong>Setup with Agentforce for Admins</strong> highlights the platform's ability to shift administrative and consulting operations from traditional manual configuration to conversational, meta-agent workflows.
-          </p>
-          <p>
-            Instead of navigating across multiple Setup sub-menus (such as Schema Builder, Flow Builder, Profile/Permission Set Managers, and Agent Studio), consultants use the <strong>Agentforce Setup Agent</strong> to audit, construct, and verify platform infrastructure via natural language.
-          </p>
-        </section>
+    <div class="container">
+        <main>
+            <section id="overview">
+                <h2>1. What the Solution Does</h2>
+                <p>Operationalizing Agentforce Setup and Administrative Governance</p>
+                <p>The Agentforce Setup solution enables Salesforce Administrators to configure, license, and deploy autonomous AI agents across the Enterprise. It establishes the organizational foundation by enabling Einstein and Agentforce capabilities, provisioning user access permissions, configuring agent topics and actions, and establishing Einstein Trust Layer guardrails directly within the Salesforce CRM setup environment.</p>
+            </section>
 
-        <!-- 2. Problem / Solution -->
-        <section class="section-card" id="description">
-          <h2> 2. Problem & Solution</h2>
-          <div class="ps-grid">
-            <div class="ps-box problem">
-              <h3><span>✖</span> Enterprise Friction</h3>
-              <p>Manual administrative configuration across sandbox environments slows down Agentforce deployment velocity. Setting up topics, actions, guardrails, and schema mappings requires repetitive declarative steps.</p>
-            </div>
-            <div class="ps-box solution">
-              <h3><span>✓</span> Conversational Meta-Agent</h3>
-              <p>The Setup Agent translates natural language requirements directly into Salesforce Metadata & Tooling API calls, safely drafting custom objects, security models, flows, and Agent Studio components in seconds.</p>
-            </div>
-          </div>
-        </section>
+            <section id="description">
+                <h2>2. Solution Description</h2>
+                <p><strong>The Problem:</strong> Organizations face complexity when configuring autonomous AI agents without a unified administrative roadmap. Unregulated AI rollouts create security risks around data exposure, lack granular access controls, and result in inconsistent agent execution across core sales and service processes.</p>
+                <p><strong>The Solution:</strong> A structured administrative deployment in Salesforce Setup. Administrators activate Agentforce features, assign dedicated Permission Sets and License assignments, assign grounded Agent Actions (Flows, Apex, Prompt Templates), and enforce strict data masking and safety protocols using the Einstein Trust Layer.</p>
+            </section>
 
-        <!-- 3. Architecture -->
-        <section class="section-card" id="architecture">
-          <h2> 3. Solution Architecture</h2>
-          <p>The Setup Agent acts as an administrative orchestration engine between user intent and the underlying Salesforce Metadata layer:</p>
+            <section id="architecture">
+                <h2>3. High-Level Architecture</h2>
+                <p>The solution relies on four key components of the Salesforce ecosystem working seamlessly together:</p>
+                
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Salesforce Setup</strong>
+                                <span>Einstein & Agentforce Core Activation</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>Access & Governance</strong>
+                                <span>Permission Sets, Licenses &amp; Security Profiles</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Deployment Endpoints</strong>
+                                <span>Lightning Pages, Experience Cloud & Messaging</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>Agent Builder</strong>
+                                <span>Topics, Instructions & Action Assignment</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>Einstein Trust Layer</strong>
+                                <span>Data Masking, Safety & Guardrails</span>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="arch-code">
-  [ Admin / Consultant ]
-            | (Natural Language Prompt in Setup)
-            v
-  +-------------------------------------------------------------+
-  |                    AGENTFORCE SETUP AGENT                   |
-  |  - Atlas Reasoning Engine (Parses administrative intent)    |
-  |  - Meta-Tooling API (Translates intent into Metadata API)   |
-  +-------------------------------------------------------------+
-            |
-            +-----------------------+-----------------------+
-            |                       |                       |
-            v                       v                       v
-  [ Einstein Trust Layer ]   [ Metadata API / Tooling ]  [ Agentforce Studio ]
-  (Enforces Guardrails &     (Provisions Flows, Custom   (Configures Topics, 
-   Zero-Data Retention)       Fields, & Mappings)        Actions, & Prompts)
-            |                       |                       |
-            +-----------------------+-----------------------+
-                                    |
-                                    v
-                 +--------------------------------------+
-                 |      OPERATIONAL AGENT RUNTIME       |
-                 |  (Service Agent / Sales Agent, etc.) |
-                 +--------------------------------------+
-          </div>
+                    <ul>
+                        <li><strong>Salesforce Setup:</strong> Controls global organization settings, enabling Einstein, Agentforce, and underlying Data Cloud integrations.</li>
+                        <li><strong>Access & Governance:</strong> Enforces granular user and system access using explicit Agentforce user permissions, licenses, and object-level security.</li>
+                        <li><strong>Agent Builder & Trust Layer:</strong> Serves as the configuration studio where administrators assign topics, ground agent actions, and apply data privacy and toxic-content filters.</li>
+                        <li><strong>Deployment Endpoints:</strong> Surfacing activated autonomous agents directly into Lightning App Builder, Experience Cloud sites, or messaging channels.</li>
+                    </ul>
+                </div>
+            </section>
 
-          <ul class="arch-components">
-            <li><strong>Atlas Reasoning Engine (Meta-Level):</strong> Interprets prompt intent, determines necessary metadata dependencies, and formulates a safe execution plan.</li>
-            <li><strong>Metadata & Tooling API:</strong> Executes declarative changes including field creation, permission set updates, and flow provisioning.</li>
-            <li><strong>Einstein Trust Layer:</strong> Secures prompt inputs, ensuring system metadata sent to the LLM is masked and bound by zero-data retention policies.</li>
-            <li><strong>Agentforce Studio Assembly:</strong> Registers generated Topics, Actions, and Instructions into target runtime agents.</li>
-          </ul>
-        </section>
+            <section id="implementation">
+                <h2>4. Implementation Steps (5-Minute Summary)</h2>
+                <p>You can build this solution in these four sequential stages:</p>
+                
+                <ul class="steps">
+                    <li>
+                        <span class="step-title">Step 1: Enable Einstein and Agentforce (~1 min)</span><br>
+                        Navigate to Salesforce Setup, search for Einstein Setup, and toggle Einstein on. Locate Agentforce Setup and turn on Agentforce to unlock agent configuration capabilities.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 2: Assign Licenses &amp; Permission Sets (~1 min)</span><br>
+                        Assign the Agentforce User/Admin Permission Set Licenses to designated administrative and target user profiles. Create and assign permission sets granting access to specific agent actions and objects.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 3: Configure Agent Topics, Actions & Guardrails (~1.5 min)</span><br>
+                        Open Agent Builder. Select or create an Agent, define system instructions, and add Topics. Attach grounded Actions (Flows, Apex classes, or Prompt Templates) to each topic, and verify data masking in the Einstein Trust Layer settings.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 4: Activate &amp; Deploy Agent to Endpoints (~1.5 min)</span><br>
+                        Test the agent within the Agent Builder preview panel. Once validated, activate the Agent. Embed the agent component into target Lightning Record Pages, Utility Bars, or digital channels using Lightning App Builder.
+                    </li>
+                </ul>
 
-        <!-- 4. Implementation Steps -->
-        <section class="section-card" id="implementation">
-          <h2>4. Setup Agent Execution Steps</h2>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-title">1. Context Discovery & Metadata Audit</div>
-              <div class="timeline-scope">Scope: Schema and feature inspection</div>
-              <div class="timeline-desc">The Setup Agent scans existing CRM objects, Data Cloud DMOs, and active setup toggles to evaluate platform readiness for requested configurations.</div>
-            </div>
+                <div class="takeaway-box">
+                    <h4>Consultant Takeaway</h4>
+                    <p>Administrative setup for Agentforce requires zero code. By establishing foundational security, licensing, and grounded Agent Actions within Salesforce Setup, administrators can deploy trusted autonomous capabilities across any CRM channel efficiently.</p>
+                </div>
+            </section>
 
-            <div class="timeline-item">
-              <div class="timeline-title">2. Plan Generation & Confirmation</div>
-              <div class="timeline-scope">Scope: Administrative safety gate</div>
-              <div class="timeline-desc">Generates a detailed execution plan listing all proposed metadata modifications for consultant approval prior to execution.</div>
-            </div>
+            <section id="metadata">
+                <h2>Meta-data for Git Repository</h2>
+                <p>To move the solution built in a sandbox through a CI/CD pipeline and extract it to a Git repository, you need to grab the metadata components for agent definitions, permission sets, actions, and page layouts.</p>
+                <p>Use at least <strong>API Version 60.0 or higher</strong> in your <code>sfdx-project.json</code> or <code>package.xml</code> manifest, as Agentforce metadata types require modern API versions.</p>
+                <p>The precise metadata types you can extract using the Salesforce CLI (<code>sf project retrieve</code>) are organized by architectural layer below:</p>
 
-            <div class="timeline-item">
-              <div class="timeline-title">3. Declarative Asset Provisioning</div>
-              <div class="timeline-scope">Scope: Automated schema & flow creation</div>
-              <div class="timeline-desc">Programmatically executes metadata changes, such as drafting custom fields, setting security controls, and building Flow skeletons.</div>
-            </div>
+                <h3>1. The Agentforce &amp; AI Configuration Layer</h3>
+                <p>These components contain agent definitions, topics, actions, and prompt templates:</p>
+                <ul class="metadata-list">
+                    <li><strong>Bot:</strong> Represents the Agent definition created within Agent Builder.</li>
+                    <li><strong>BotVersion:</strong> Stores specific configuration versions, topics, and system instructions for the agent.</li>
+                    <li><strong>GenAiPlugin:</strong> Defines custom actions and topic plugins attached to the Agentforce agent.</li>
+                    <li><strong>GenAiPromptTemplate:</strong> Houses the grounded prompt templates assigned as agent actions.</li>
+                </ul>
 
-            <div class="timeline-item">
-              <div class="timeline-title">4. Agent Topic & Action Assembly</div>
-              <div class="timeline-scope">Scope: Agentforce Studio configuration</div>
-              <div class="timeline-desc">Binds provisioned assets into Agent Studio as executable Topics and Actions, establishing runtime instructions for the agent.</div>
-            </div>
+                <h3>2. The Governance &amp; Security Layer</h3>
+                <p>These elements handle permissions, licenses, and access controls:</p>
+                <ul class="metadata-list">
+                    <li><strong>PermissionSet:</strong> Controls access to specific Agentforce features, flows, apex actions, and field permissions.</li>
+                    <li><strong>CustomPermission:</strong> Custom permissions created to gate agent action visibility and execution.</li>
+                </ul>
 
-            <div class="timeline-item">
-              <div class="timeline-title">5. Verification & Testing Canvas</div>
-              <div class="timeline-scope">Scope: Runtime validation</div>
-              <div class="timeline-desc">Validates governor limit impacts and launches the Agentforce Testing Canvas for simulated end-to-end conversation testing.</div>
-            </div>
-          </div>
-        </section>
+                <h3>3. The UI &amp; Channel Deployment Layer</h3>
+                <p>These elements define where the agent surfaces in core CRM:</p>
+                <ul class="metadata-list">
+                    <li><strong>FlexiPage:</strong> Lightning pages configured with the Agentforce component.</li>
+                    <li><strong>CustomApplication:</strong> Utility bar definitions containing the Agentforce messaging component.</li>
+                </ul>
 
-        <!-- 5. Hands-On Solutions -->
-        <section class="section-card" id="solutions">
-          <h2> 5. Hands-On Solutions</h2>
+                <h3>Example package.xml Manifest</h3>
+                <p>Create a <code>package.xml</code> file using the snippet below to extract the complete end-to-end solution directly into your local Git tracking folder:</p>
 
-          <!-- Solutions 1 -->
-          <div class="exercise-box">
-            <div class="exercise-title">Solution 1: Create an Object and Flow</div>
-            <p><strong>Scenario:</strong> Provision custom schema and a record-triggered notification flow using natural language.</p>
-            
-            <div class="prompt-container">
-              <span class="prompt-tag">Admin Prompt</span>
-              "Create a custom object called 'Project Milestone' with fields for Milestone Name, Due Date, and Status (Picklist: Not Started, In Progress, Complete). Then create a Record-Triggered Flow that sends an email alert when Status is set to Complete."
-            </div>
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Package xmlns="http://soap.sforce.com/2006/04/metadata"&gt;
+    &lt;!-- Agentforce Agent &amp; Topic Metadata --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;Bot&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;BotVersion&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;GenAiPlugin&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;GenAiPromptTemplate&lt;/name&gt;
+    &lt;/types&gt;
 
-            <ol class="exercise-steps">
-              <li><strong>Schema Generation:</strong> Setup Agent invokes Schema Builder APIs to create <code>Project_Milestone__c</code> and fields (<code>Milestone_Name__c</code>, <code>Due_Date__c</code>, <code>Status__c</code>).</li>
-              <li><strong>Tab Provisioning:</strong> Creates the custom object tab and assigns default visibility to the System Administrator profile.</li>
-              <li><strong>Flow Metadata Generation:</strong> Creates a Record-Triggered Flow on <code>Project_Milestone__c</code> triggered on update when <code>Status__c = 'Complete'</code>.</li>
-              <li><strong>Action Binding:</strong> Inserts a Send Email core action into the flow and provides a direct activation link.</li>
-            </ol>
-          </div>
+    &lt;!-- Governance &amp; Security --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Agentforce_Admin_Access&lt;/members&gt;
+        &lt;members&gt;Agentforce_User_Access&lt;/members&gt;
+        &lt;name&gt;PermissionSet&lt;/name&gt;
+    &lt;/types&gt;
 
-          <!-- Solutions 2 -->
-          <div class="exercise-box">
-            <div class="exercise-title">Solution 2: Manage User Access</div>
-            <p><strong>Scenario:</strong> Audit existing platform security and provision dedicated object and field permissions.</p>
-            
-            <div class="prompt-container">
-              <span class="prompt-tag">Admin Prompt</span>
-              "Audit user access for the Support Team profile and create a Permission Set named 'Agentforce Administrator' that grants Read/Create access to the Project Milestone object and Read access to Lead Conversion Scores."
-            </div>
+    &lt;!-- UI Deployment &amp; Experience --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Service_Console_UtilityBar&lt;/members&gt;
+        &lt;name&gt;CustomApplication&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;Case_Record_Page&lt;/members&gt;
+        &lt;name&gt;FlexiPage&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;version&gt;65.0&lt;/version&gt;
+&lt;/Package&gt;</code></pre>
 
-            <ol class="exercise-steps">
-              <li><strong>Security Audit:</strong> Agent evaluates existing profiles and permission sets for targeted object visibility.</li>
-              <li><strong>PermissionSet Metadata:</strong> Creates a new permission set asset named <code>Agentforce_Administrator</code>.</li>
-              <li><strong>OLS / FLS Ingestion:</strong> Injects <code>ObjectPermissions</code> (Read/Create on <code>Project_Milestone__c</code>) and target field permissions.</li>
-              <li><strong>User Assignment:</strong> Prompts the administrator with matching user lists and applies the permission set upon approval.</li>
-            </ol>
-          </div>
-
-          <!-- Exercise 3 -->
-          <div class="exercise-box">
-            <div class="exercise-title">Solution 3: Monitor Your Salesforce Org</div>
-            <p><strong>Scenario:</strong> Extract real-time system health metrics, governor limit consumption, and operational execution logs.</p>
-            
-            <div class="prompt-container">
-              <span class="prompt-tag">Admin Prompt</span>
-              "Show me org system health, check our current daily governor limits for API calls and Flow executions, and summarize recent errors from Agentforce agent runs."
-            </div>
-
-            <ol class="exercise-steps">
-              <li><strong>Limits REST Query:</strong> Agent calls <code>/services/data/vXX.X/limits</code> to fetch API and Async Apex usage.</li>
-              <li><strong>Log File Parsing:</strong> Scans <code>EventLogFile</code> records to catch Flow and Agentforce stack traces over the last 24 hours.</li>
-              <li><strong>Summary Reporting:</strong> Synthesizes real-time usage percentages and pinpoints failing agentic steps for immediate remediation.</li>
-            </ol>
-          </div>
-
-          <div class="callout">
-            <div class="callout-title">Consultant Takeaway</div>
-            Utilizing the Agentforce Setup Agent reduces declarative environment setup time by up to 70%, allowing consultants to focus on business process modeling and prompt engineering.
-          </div>
-        </section>
-
-      </main>
-
-    
+                <div class="warning-box">
+                    <h4>Consultant Sandbox Exception</h4>
+                    <p>Global Einstein Setup toggles and tenant-level Agentforce activation settings cannot be deployed via Metadata API. You must manually turn on Einstein and Agentforce in Setup within target environments prior to retrieving or deploying package metadata.</p>
+                </div>
+            </section>
+        </main>
     </div>
-  </div>
-
 </body>
 </html>
