@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Headless 360 Platform Use Cases - Agentic Enterprise Solutions</title>
+    <style>
+        :root {
+            --primary: #0176d3;
+            --primary-dark: #014486;
+            --bg-main: #f3f3f3;
+            --bg-card: #ffffff;
+            --text-dark: #181818;
+            --text-muted: #444444;
+            --border-color: #dddbda;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        aside p a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        aside p a:hover {
+            text-decoration: underline;
+        }
+
+        aside nav {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        aside nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        aside nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 4rem;
+            max-width: 1100px;
+        }
+
+        section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-main);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--text-dark);
+            font-size: 1.15rem;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Code Block */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+            line-height: 1.45;
+        }
+
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: #eef2f6;
+            color: #b71c1c;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* Phase Cards */
+        .phase-card {
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            background-color: #fafafa;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-tag {
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .phase-title {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Info & Alert Callouts */
+        .callout {
+            border-left: 4px solid #dddbda;
+            background-color: #f8f9fa;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .callout-warning {
+            border-left-color: #fe9339;
+            background-color: #fff8f0;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f4f6f9;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            main {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
+        <h1>Headless 360 Platform Use Cases</h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#description">2. Key Industry Use Cases</a>
+            <a href="#architecture">3. High-Level Architecture</a>
+            <a href="#implementation">4. Implementation Steps</a>
+            <a href="#metadata">5. Metadata & Deployment</a>
+        </nav>
+    </aside>
+
+    <main>
+        <section id="overview">
+            <h2>1. Solution Overview</h2>
+            <p>The <strong>Headless 360 Platform</strong> decouples core business capability, data, and logic from Salesforce's default front-end presentation layer. By exposing platform capabilities via unified APIs, Model Context Protocol (MCP) tools, and CLI integrations, organizations can extend CRM operations directly into external interfaces, autonomous AI models, custom front-ends, and third-party applications.</p>
+            <p>This architecture treats Salesforce as an intelligent backend enterprise system. It enables custom mobile applications, conversational channels (e.g., Slack, LLM clients), custom storefronts, and specialized industry portals to execute transactional workflows while relying on native Salesforce identity, permissions, object rules, and automation engines.</p>
+            <p>In an agentic enterprise architecture, Headless 360 acts as the execution infrastructure layer. Autonomous AI agents and developer developer tools (such as Cursor, Claude Code, or custom LLM clients) securely execute tasks and query context inside Salesforce without human UI navigation.</p>
+        </section>
+
+        <section id="description">
+            <h2>2. Key Industry Use Cases</h2>
+            <p><strong>The Challenge:</strong> Legacy CRM models require end-users, customers, or internal advisors to switch context and log into dedicated web portals to run everyday operational workflows. Headless 360 solves this by embedding Salesforce actions directly into native user tools and external touchpoints.</p>
+
+            <div class="callout">
+                <div class="callout-title">Architectural Shift</div>
+                Headless 360 abstracts business logic into reusable endpoints. Rather than rebuilding authorization, record flows, or validation rules across different web and mobile channels, business rules remain centralized in Salesforce while rendering natively on any client device or agentic surface.
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domain / Industry</th>
+                        <th>Headless Operational Pattern</th>
+                        <th>Enterprise Benefit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sales Operations</strong></td>
+                        <td>Drive opportunity updates, lead scoring, and pipeline progression directly via CLI tools, developer IDEs, or custom conversational surfaces.</td>
+                        <td>Reduces administrative task overhead for sales reps; allows instant CRM updates directly inside daily workspace tools.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Digital Commerce</strong></td>
+                        <td>Expose headless catalog search, checkout, cart management, and inventory flows to web, mobile app, and social channels.</td>
+                        <td>Delivers high-performance custom shopper UI experiences without duplicating backend inventory or order management engines.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Healthcare & Life Sciences</strong></td>
+                        <td>Connect patient scheduling, care coordinator notes, and EHR context securely across external healthcare web portals and mobile systems.</td>
+                        <td>Unifies dispersed patient records and care protocols without violating compliance boundary models or fragmenting patient history.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Financial Services</strong></td>
+                        <td>Supply wealth advisors with real-time portfolio summaries, client risk metrics, and transactional actions embedded directly in custom advisor dashboards.</td>
+                        <td>Aggregates client interaction history and financial context into single-pane advisor tools without forcing manual tab switching.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Field Service & Operations</strong></td>
+                        <td>Dispatch technicians, manage work orders, and process inventory updates headlessly from offline-capable mobile clients or IoT triggers.</td>
+                        <td>Ensures reliable field operational updates in low-bandwidth environments while updating core service records in real time.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="architecture">
+            <h2>3. High-Level Solution Architecture</h2>
+            <p>The Headless 360 architecture decouples presentation channels from platform business execution through standard programmatic contracts and context services:</p>
+
+            <pre><code>[ CONSUMPTION LAYER ]
+  Custom UI (React/Mobile) │ Conversational AI Agents │ Slack & External IDEs
+                           │
+                           ▼ (APIs / MCP Protocol / CLI Commands)
+┌────────────────────────────────────────────────────────────────────────┐
+│                   HEADLESS 360 EXPERIENCE LAYER                         │
+│  - Decoupled Rendering Contracts (Headless Experience Runtime)          │
+│  - MCP Tooling & API Gateways                                          │
+└──────────────────────────┬─────────────────────────────────────────────┘
+                           │ 
+                           ▼ Identity & Authorization Pass-Through
+┌────────────────────────────────────────────────────────────────────────┐
+│               SALESFORCE BUSINESS LOGIC & AGENT FABRIC                 │
+│  - Object Validation Rules & Apex Service Domain Layer                 │
+│  - Agentforce Action Execution & Workflow Automation                   │
+│  - Platform Security, Sharing Rules & Field-Level Security             │
+└──────────────────────────┬─────────────────────────────────────────────┘
+                           │
+                           ▼ Canonical Grounding
+┌────────────────────────────────────────────────────────────────────────┐
+│                      DATA 360 & CORE DATABASES                         │
+│  - Data Model Objects (DMOs) & Unified Profile Store                   │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+
+            <ol>
+                <li><strong>Presentation / Surface Layer:</strong> Native mobile apps, external web frameworks, or AI LLMs trigger business actions using MCP tools, REST/GraphQL endpoints, or CLI interfaces.</li>
+                <li><strong>Headless Experience Layer:</strong> Translates incoming payload requests into Salesforce system invocations, formatting response payloads appropriately for consumption by external UIs or LLM context windows.</li>
+                <li><strong>Business Logic & Security Core:</strong> Executes native Apex code, Flow automations, and Agentforce actions. System permission policies, Sharing Rules, and Field-Level Security (FLS) are strictly enforced.</li>
+                <li><strong>Data Foundation:</strong> Transactional updates update underlying CRM records and Data 360 profiles seamlessly, preserving a single source of truth across all channels.</li>
+            </ol>
+        </section>
+
+        <section id="implementation">
+            <h2>4. Implementation Steps (5-Minute Summary)</h2>
+            <p>The end-to-end technical deployment follows five structured operational phases:</p>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 1</span>
+                    <span class="phase-title">Define Domain Capability & Business Contracts</span>
+                </div>
+                <p>Identify target business operations (e.g., Order Status Check, Field Dispatches) and map the underlying Salesforce service contracts.</p>
+                <ul>
+                    <li>Expose domain logic cleanly via invocable Apex methods or headless Flow definitions.</li>
+                    <li>Ensure input/output variables are explicitly typed and validated for API serialization.</li>
+                    <li>Document required input fields, default values, and response payload structures.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 2</span>
+                    <span class="phase-title">Expose Headless API & MCP Endpoints</span>
+                </div>
+                <p>Enable external invocation channels by exposing service layers through Headless 360 connectors and MCP server endpoints.</p>
+                <ul>
+                    <li>Configure Connected Apps or Headless Client instances in Salesforce Setup with OAuth 2.0 PKCE / Client Credentials flows.</li>
+                    <li>Register Apex or Flow actions as Model Context Protocol (MCP) tools for LLM agent discovery.</li>
+                    <li>Set explicit endpoint scope boundaries to prevent unauthenticated access to non-target objects.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 3</span>
+                    <span class="phase-title">Configure Authorization & Security Scopes</span>
+                </div>
+                <p>Enforce governance boundaries to ensure execution contexts respect platform trust guidelines.</p>
+                <ul>
+                    <li>Assign target Permission Sets and Integration Profiles to headless execution actors.</li>
+                    <li>Verify Field-Level Security (FLS) and Object Permissions for all headless endpoints.</li>
+                    <li>Establish audit logging and monitoring via Event Monitoring or OpenTelemetry tracing.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 4</span>
+                    <span class="phase-title">Integrate Client App or Agentic Framework</span>
+                </div>
+                <p>Connect client interfaces or AI agent frameworks to consume Headless 360 tools.</p>
+                <ul>
+                    <li>Incorporate the Headless SDK or MCP client libraries into the target application codebase.</li>
+                    <li>Configure runtime error handling, token refresh logic, and rate-limit retry mechanisms.</li>
+                    <li>Test cross-origin resource sharing (CORS) settings for web clients where required.</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-tag">Phase 5</span>
+                    <span class="phase-title">Validate & Deploy Across Channels</span>
+                </div>
+                <p>Execute end-to-end validation across target surfaces before promoting metadata to production.</p>
+                <ol>
+                    <li>Perform API contract testing using POSTMAN or CLI commands to verify functional correctness.</li>
+                    <li>Verify agent execution flows to ensure natural language requests map accurately to headless actions.</li>
+                    <li>Package and deploy underlying metadata via Salesforce CLI and automated CI/CD deployment pipelines.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="metadata">
+            <h2>5. Metadata & Deployment Blueprint</h2>
+            <p>Manage deployment and lifecycle migrations across environments using this standard <code>package.xml</code> manifest framework (API Version 65.0+):</p>
+
+            <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Package xmlns="http://soap.sforce.com/2006/04/metadata"&gt;
+    &lt;!-- 1. SERVICE LOGIC & INVOCABLE ACTIONS --&gt;
+    &lt;types&gt;
+        &lt;members&gt;HeadlessOrderService&lt;/members&gt;
+        &lt;members&gt;HeadlessAdvisorController&lt;/members&gt;
+        &lt;name&gt;ApexClass&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;Headless_Field_Dispatch_Flow&lt;/members&gt;
+        &lt;name&gt;Flow&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;!-- 2. CONNECTED APP & SECURITY LAYER --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Headless360_Client_App&lt;/members&gt;
+        &lt;name&gt;ConnectedApp&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;Headless_Integration_User_PSet&lt;/members&gt;
+        &lt;name&gt;PermissionSet&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;!-- 3. AGENT & EXTERNAL TOOLING CONFIGURATION --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Headless_Service_Agent&lt;/members&gt;
+        &lt;name&gt;Bot&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;version&gt;65.0&lt;/version&gt;
+&lt;/Package&gt;</code></pre>
+
+            <h3>Component Metadata Definitions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metadata Type</th>
+                        <th>Architectural Governance Target</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ApexClass</strong></td>
+                        <td>Houses invocable business logic, serialization endpoints, and data validation rules.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Flow</strong></td>
+                        <td>Orchestrates multi-step declarative processes triggered headlessly by external systems.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ConnectedApp</strong></td>
+                        <td>Defines OAuth authentication parameters, JWT Bearer configurations, and client scopes.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PermissionSet</strong></td>
+                        <td>Restricts API execution access exclusively to authorized fields, Apex classes, and flows.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bot / Agent Definition</strong></td>
+                        <td>Configures Agentforce action mappings for MCP tool routing and autonomous interaction execution.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠️ Critical Manual Deployment Dependencies</div>
+                <ul>
+                    <li><strong>OAuth Consumer Credentials Management:</strong> Consumer Keys and Secrets generated during Connected App creation are environment-specific and must be safely managed via secure environment variables in target build pipelines.</li>
+                    <li><strong>CORS Policy Configuration:</strong> Web-based headless applications require domain origins to be explicitly whitelisted under <em>Security &gt; CORS</em> in target Salesforce environments.</li>
+                    <li><strong>User Execution Contexts:</strong> Ensure integration user accounts associated with headless tokens have valid licenses, assigned permission sets, and active profiles prior to client request execution.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
