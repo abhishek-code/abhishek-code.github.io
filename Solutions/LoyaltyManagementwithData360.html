@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyalty Management and Data Cloud 360 Integration - Solution Blueprint</title>
+    <style>
+        :root {
+            --primary: #0176D3;
+            --primary-dark: #014B82;
+            --accent: #00A1E0;
+            --text-main: #181818;
+            --text-muted: #5C5C5C;
+            --bg-light: #F3F3F3;
+            --bg-card: #FFFFFF;
+            --border: #DDDBDA;
+            --code-bg: #161B22;
+            --code-text: #E6EDF3;
+            --warning-bg: #FFF7E6;
+            --warning-border: #FFA500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        aside nav a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        aside nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Architecture Diagram Styling */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+        /* Steps list styling */
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Code Block Styling */
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callout / Warning Boxes */
+        .warning-box, .takeaway-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box {
+            background-color: #E8F4FD;
+            border-left-color: var(--primary);
+        }
+
+        .warning-box h4, .takeaway-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box h4 {
+            color: #B06000;
+        }
+
+        .takeaway-box h4 {
+            color: var(--primary-dark);
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .arch-row {
+                flex-direction: column;
+            }
+            .arch-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
+        <h1>Loyalty Management &amp; Data Cloud 360</h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#description">2. Solution Description</a>
+            <a href="#architecture">3. High-Level Architecture</a>
+            <a href="#implementation">4. 5-Minute Implementation</a>
+            <a href="#metadata">5. Metadata & Deployment</a>
+        </nav>
+    </aside>
+
+    <div class="container">
+        <main>
+            <section id="overview">
+                <h2>1. What the Solution Does</h2>
+                <p>Integrating Salesforce Loyalty Management with Data 360 for Unified Member Profiles and Actionable Segmentation</p>
+                <p>This solution establishes a bidirectional synchronization pattern between Salesforce Loyalty Management and Salesforce Data Cloud. It ingests member program details, point ledgers, tier changes, and promotion engagements into Data Cloud to harmonize loyalty records with cross-channel behavior. The resulting insights enable dynamic segment generation, targeted promotion triggers, and personalized engagement across operational channels.</p>
+            </section>
+
+            <section id="description">
+                <h2>2. Solution Description</h2>
+                <p><strong>The Problem:</strong> Loyalty member data often resides in isolated program tables separate from broader transactional, web, and service activity. Without unified data streaming, enterprises struggle to recalculate member tiers dynamically, deliver timely promotion offers, or surface up-to-date points balances across external touchpoints.</p>
+                <p><strong>The Solution:</strong> Leveraging native Data Cloud ingest connectors for Loyalty Management objects (such as Loyalty Program Member, Member Tier, and Loyalty Ledger), organizations convert operational records into Data Lake Objects (DLOs) and standard Data Model Objects (DMOs). Data Cloud calculated insights run real-time metrics across member behaviors, driving automated segments and orchestrating personalized member journeys via Flow and Data Actions.</p>
+            </section>
+
+            <section id="architecture">
+                <h2>3. High-Level Architecture</h2>
+                <p>The solution relies on four key components of the Salesforce ecosystem working seamlessly together:</p>
+                
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Loyalty Management</strong>
+                                <span>Program Members, Tiers &amp; Ledgers</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>Data Cloud Ingestion</strong>
+                                <span>CRM Bundles &amp; Data Streams (DLOs)</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Activation &amp; Actions</strong>
+                                <span>Segments, Data Actions &amp; Flow Triggers</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>Calculated Insights</strong>
+                                <span>Tier Aggregations &amp; Engagement Metrics</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>Identity &amp; Mapping</strong>
+                                <span>Unified Member DMOs &amp; Match Rules</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li><strong>Loyalty Management:</strong> Functions as the core operational engine capturing program enrollment, transaction ledgers, member tiers, and rewards.</li>
+                        <li><strong>Data Cloud Ingestion &amp; Mapping:</strong> Ingests loyalty entities via native Salesforce CRM Connectors into DLOs, mapping them to standard Data Cloud Data Model Objects (DMOs).</li>
+                        <li><strong>Identity Resolution &amp; Insights:</strong> Resolves member identities across disparate touchpoints and executes Calculated Insights to compute lifetime value, point balances, and engagement frequency.</li>
+                        <li><strong>Activation &amp; Execution:</strong> Streams unified member segments to Marketing Cloud, Service Cloud, or triggers automated Salesforce Flows via Data Actions upon tier changes.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="implementation">
+                <h2>4. Implementation Steps (5-Minute Summary)</h2>
+                <p>You can build this solution in these four sequential stages:</p>
+                
+                <ul class="steps">
+                    <li>
+                        <span class="step-title">Step 1: Connect Loyalty Data Streams (~1 min)</span><br>
+                        In Data Cloud Setup, launch the Salesforce CRM Connector and deploy the standard Loyalty Management data bundle. Ingest core objects including <code class="inline">LoyaltyProgramMember</code>, <code class="inline">LoyaltyMemberTier</code>, and <code class="inline">LoyaltyLedger</code> into Data Lake Objects (DLOs).
+                    </li>
+                    <li>
+                        <span class="step-title">Step 2: Map to Standard DMOs &amp; Configure Identity Resolution (~1 min)</span><br>
+                        Map DLO attributes to target Data Model Objects (Individual, Account, and Loyalty DMOs). Configure Identity Resolution rulesets combining Contact Point Email and Member ID to produce a single Unified Profile.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 3: Define Calculated Insights (~1.5 min)</span><br>
+                        Build SQL-based or visual Calculated Insights in Data Cloud to compute rolling 90-day engagement metrics, active point balances, and tier upgrade eligibility thresholds per unified member.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 4: Create Segments &amp; Configure Data Actions (~1.5 min)</span><br>
+                        Publish target member segments based on calculated insight outputs. Configure Data Actions to push activation targets to Marketing Cloud or trigger Flow orchestrations for personalized outreach.
+                    </li>
+                </ul>
+
+                <div class="takeaway-box">
+                    <h4>Consultant Takeaway</h4>
+                    <p>By leveraging standard CRM Data Bundles for Loyalty Management, integration requires minimal custom ETL work. Data Cloud unifies operational loyalty records with external behavioral data, making dynamic tier calculations and targeted rewards available out-of-the-box.</p>
+                </div>
+            </section>
+
+            <section id="metadata">
+                <h2>Meta-data for Git Repository</h2>
+                <p>To move the solution built in a sandbox through a CI/CD pipeline and extract it to a Git repository, you need to grab the metadata components for data stream definitions, insight models, segments, and flow orchestrations.</p>
+                <p>Use at least <strong>API Version 60.0 or higher</strong> in your <code>sfdx-project.json</code> or <code>package.xml</code> manifest to support Data Cloud and Loyalty metadata types.</p>
+                <p>The precise metadata types you can extract using the Salesforce CLI (<code>sf project retrieve</code>) are organized by architectural layer below:</p>
+
+                <h3>1. The Data Cloud Ingestion &amp; Mapping Layer</h3>
+                <p>These components control data streams, field maps, and calculated insights:</p>
+                <ul class="metadata-list">
+                    <li><strong>DataStreamDefinition:</strong> Defines the source ingestion configurations connecting Loyalty Management to DLOs.</li>
+                    <li><strong>DataSrcDataModelFieldMap:</strong> Contains field mapping configurations connecting Loyalty DLOs to standard DMOs.</li>
+                    <li><strong>MarketSegmentDefinition:</strong> Metadata definitions for segments built on unified loyalty member profiles.</li>
+                </ul>
+
+                <h3>2. The Automation &amp; Platform Layer</h3>
+                <p>These elements handle business logic and workflow triggers across core CRM:</p>
+                <ul class="metadata-list">
+                    <li><strong>Flow:</strong> Process automation triggered by Data Actions upon loyalty segment membership or tier updates.</li>
+                    <li><strong>CustomField:</strong> Custom attributes added to standard Loyalty objects to capture unified insight values.</li>
+                    <li><strong>PermissionSet:</strong> Access controls governing Data Cloud and Loyalty Management object visibility.</li>
+                </ul>
+
+                <h3>Example package.xml Manifest</h3>
+                <p>Create a <code>package.xml</code> file using the snippet below to extract the complete end-to-end solution directly into your local Git tracking folder:</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Package xmlns="http://soap.sforce.com/2006/04/metadata"&gt;
+    &lt;!-- Data Cloud Ingestion &amp; Mapping --&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataStreamDefinition&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;DataSrcDataModelFieldMap&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;*&lt;/members&gt;
+        &lt;name&gt;MarketSegmentDefinition&lt;/name&gt;
+    &lt;/types&gt;
+
+    &lt;!-- Automation &amp; Governance --&gt;
+    &lt;types&gt;
+        &lt;members&gt;Loyalty_Tier_Notification_Flow&lt;/members&gt;
+        &lt;name&gt;Flow&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;types&gt;
+        &lt;members&gt;Loyalty_DataCloud_Integration_Admin&lt;/members&gt;
+        &lt;name&gt;PermissionSet&lt;/name&gt;
+    &lt;/types&gt;
+    &lt;version&gt;65.0&lt;/version&gt;
+&lt;/Package&gt;</code></pre>
+
+                <div class="warning-box">
+                    <h4>Consultant Sandbox Exception</h4>
+                    <p>Identity Resolution rulesets and active data streams must be validated manually post-deployment in target orgs. Ensure that both Salesforce Data Cloud and Loyalty Management licenses are active and connected prior to package deployment.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
