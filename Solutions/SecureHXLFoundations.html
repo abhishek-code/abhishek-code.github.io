@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure and Trusted Headless Foundation - Solution Blueprint</title>
+    <style>
+        :root {
+            --primary: #0176D3;
+            --primary-dark: #014B82;
+            --accent: #00A1E0;
+            --text-main: #181818;
+            --text-muted: #5C5C5C;
+            --bg-light: #F3F3F3;
+            --bg-card: #FFFFFF;
+            --border: #DDDBDA;
+            --code-bg: #161B22;
+            --code-text: #E6EDF3;
+            --warning-bg: #FFF7E6;
+            --warning-border: #FFA500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        aside nav a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        aside nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Architecture Container */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+        /* Step titles & code elements */
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callout Boxes */
+        .warning-box, .takeaway-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box {
+            background-color: #E8F4FD;
+            border-left-color: var(--primary);
+        }
+
+        .warning-box h4, .takeaway-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box h4 { color: #B06000; }
+        .takeaway-box h4 { color: var(--primary-dark); }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-card {
+            padding: 1.25rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .comparison-card.bad {
+            background-color: #FFF5F5;
+            border-left: 4px solid #D9381E;
+        }
+
+        .comparison-card.good {
+            background-color: #F0FFF4;
+            border-left: 4px solid #2E7D32;
+        }
+
+        .comparison-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-card.bad h4 { color: #D9381E; }
+        .comparison-card.good h4 { color: #2E7D32; }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .arch-row { flex-direction: column; }
+            .arch-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
+        <h1>Secure Headless Foundation</h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#overprivilege">2. Risks of Excess Agent Access</a>
+            <a href="#architecture">3. End-to-End Solution Architecture</a>
+            <a href="#usecase">4. Real-World Use Case Implementation</a>
+            <a href="#governance">5. Governance &amp; Security Controls</a>
+            <a href="#monitoring">6. Real-Time Monitoring &amp; Audit</a>
+        </nav>
+    </aside>
+
+    <div class="container">
+        <main>
+            <section id="overview">
+                <h2>1. What the Solution Does</h2>
+                <p>Establishing Security, Trust, and Governed Execution across Headless AI &amp; 3rd-Party Integrations</p>
+                <p>When external AI agents, Model Context Protocol (MCP) clients, and third-party tools execute business processes headlessly via APIs, traditional UI-level security boundaries no longer apply. This blueprint details how to enforce zero-trust architecture, strict least-privilege scoping, dynamic governance rules, and continuous monitoring for headless Salesforce implementations.</p>
+            </section>
+
+            <section id="overprivilege">
+                <h2>2. Risks of Granting Excessive Access to Agents and 3rd-Party Apps</h2>
+                <p>A common pitfall in headless integrations is assigning broad system permissions (e.g., "Modify All Data" or unconstrained API scopes) to integration users or connected apps to avoid permission errors. Because autonomous AI agents reason dynamically, over-privileged tokens create severe security vulnerabilities.</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card bad">
+                        <h4>❌ Over-Privileged Agent Setup</h4>
+                        <p><strong>Configuration:</strong> Agent assigned system admin profile with unrestricted access to Case, Account, Payment, and User objects.</p>
+                        <p><strong>Intent:</strong> Allow agent to retrieve order status for customer inquiries.</p>
+                        <p><strong>Insecure Outcome:</strong> Prompt injection or agent hallucination causes it to execute <code class="inline">DELETE FROM Case</code> or update billing payment tokens via headless API execution.</p>
+                    </div>
+                    <div class="comparison-card good">
+                        <h4> Least-Privilege Headless Control</h4>
+                        <p><strong>Configuration:</strong> Integration user linked to a dedicated Connected App with scoped OAuth (e.g., <code class="inline">chatter_api</code>, restricted REST endpoint) and Field-Level Security restricted strictly to public order fields.</p>
+                        <p><strong>Outcome:</strong> Agent can read order status, but schema and FLS structurally block update or deletion attempts.</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>Severe Consequences of Poor Access Control</h4>
+                    <ul>
+                        <li><strong>Data Exfiltration:</strong> An over-privileged LLM tool reading broad CRM records could accidentally serialize sensitive PII or financial metrics into external LLM context logs.</li>
+                        <li><strong>Unintended Bulk Mutations:</strong> If an agent misinterprets an instruction, elevated permissions permit cascading update/delete operations across production data without human approval safeguards.</li>
+                        <li><strong>Compliance and Regulatory Penalties:</strong> Exposing non-public customer records to external API endpoints violates GDPR, HIPAA, and SOC2 isolation boundaries.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="architecture">
+                <h2>3. End-to-End Solution Architecture</h2>
+                <p>The solution enforces multi-layered trust controls across the full request lifecycle—from token issue down to field-level query evaluation:</p>
+
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>1. External AI / MCP Agent</strong>
+                                <span>Bearer OAuth Token &amp; Scoped Claims</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>2. Connected App &amp; Gateway</strong>
+                                <span>OAuth 2.0 Client Credentials &amp; IP Binding</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>4. Event Monitoring &amp; Shield</strong>
+                                <span>Real-Time Audit Logs &amp; Anomaly Detection</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>3. Salesforce Enforcement Layer</strong>
+                                <span>FLS, Apex Governance &amp; Transaction Security</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li><strong>Authentication &amp; Token Scoping:</strong> OAuth 2.0 Client Credentials Flow with JWT Bearer flows bound to dedicated, non-human Integration Users.</li>
+                        <li><strong>API Gateway &amp; Least-Privilege Scopes:</strong> Scoped OAuth permissions restricting token capabilities to specific REST endpoints or Apex invocations.</li>
+                        <li><strong>Salesforce Native Policy Engine:</strong> Enforces Field-Level Security (FLS), Org-Wide Defaults (OWD), and Apex transaction security policies on every headless call.</li>
+                        <li><strong>Continuous Audit &amp; Threat Detection:</strong> Real-Time Event Monitoring streams API activity into EventLogFile objects and triggers automated token revocation upon detecting policy anomalies.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="usecase">
+                <h2>4. Real-World Use Case: Headless Customer Support Case Creation</h2>
+                <p><strong>Scenario:</strong> An external AI agent running on a mobile app needs to submit support cases into Salesforce and check case status headlessly on behalf of authenticated users.</p>
+
+                <h3>Implementation Steps</h3>
+                <ul class="steps">
+                    <li>
+                        <span class="step-title">Step 1: Dedicated Integration User &amp; Permission Set (~1 min)</span><br>
+                        Create an Integration User assigned exclusively to the <code class="inline">Salesforce API Only System Integrations</code> license. Create a Permission Set granting READ access to <code class="inline">Case.CaseNumber</code>, <code class="inline">Case.Status</code>, <code class="inline">Case.Subject</code> and CREATE access for new Cases. Explicitly deny DELETE permissions and block access to sensitive fields (e.g., Internal Comments).
+                    </li>
+                    <li>
+                        <span class="step-title">Step 2: Scoped Connected App (~1 min)</span><br>
+                        Configure a Connected App utilizing OAuth 2.0 Client Credentials flow. Restrict permitted IP ranges to known API gateway endpoints and assign the permission set directly to the app profile.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 3: Governed Apex Service Layer (~1.5 min)</span><br>
+                        Expose a headless custom REST endpoint utilizing <code class="inline">with sharing</code> to enforce user security context programmatically:
+                    </li>
+                </ul>
+
+<pre><code>@RestResource(urlMapping='/v1/headless/supportCase/*')
+global with sharing class HeadlessSupportCaseController {
+
+    @HttpPost
+    global static CaseResponse createSupportCase(String subject, String description) {
+        // Enforce explicit Schema checks before execution
+        if (!Schema.sObjectType.Case.isCreateable() || 
+            !Schema.sObjectType.Case.fields.Subject.isCreateable()) {
+            RestContext.response.statusCode = 403;
+            return new CaseResponse('ERROR', 'Insufficient permissions to create case.');
+        }
+
+        // Sanitize input strings to mitigate injection attacks
+        Case newCase = new Case(
+            Subject = String.escapeSingleQuotes(subject),
+            Description = String.escapeSingleQuotes(description),
+            Origin = 'Headless_Agent'
+        );
+        
+        insert newCase;
+        return new CaseResponse('SUCCESS', newCase.Id);
+    }
+
+    global class CaseResponse {
+        public String status;
+        public String caseIdMessage;
+        public CaseResponse(String status, String caseIdMessage) {
+            this.status = status;
+            this.caseIdMessage = caseIdMessage;
+        }
+    }
+}</code></pre>
+            </section>
+
+            <section id="governance">
+                <h2>5. Governance Rules and Security Controls</h2>
+                <p>To keep headless operations secure, enforce three core governance rules across all integration pipelines:</p>
+
+                <div class="takeaway-box">
+                    <h4>Core Governance Standards</h4>
+                    <ol>
+                        <li><strong>No Generic Shared Credentials:</strong> Every external AI agent or 3rd-party integration must use its own distinct Integration User and Connected App.</li>
+                        <li><strong>Mandatory Programmatic Authorization Checks:</strong> All custom Apex APIs must enforce <code class="inline">with sharing</code> and explicitly validate <code class="inline">Schema.sObjectType</code> field-level permissions before performing DML operations.</li>
+                        <li><strong>Transaction Rate Limits &amp; Payload Constraints:</strong> Configure API request rate caps and enforce payload validation schemas to prevent denial-of-service or bulk memory overload.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section id="monitoring">
+                <h2>6. Real-Time Monitoring and Threat Detection</h2>
+                <p>Monitoring headless AI calls requires continuous observation of API event patterns, execution velocities, and query footprints.</p>
+
+                <h3>Setting Up Real-Time Monitoring</h3>
+                <ul>
+                    <li><strong>Real-Time Event Monitoring (Shield):</strong> Track <code class="inline">ApiEvent</code>, <code class="inline">RestApiEvent</code>, and <code class="inline">LightningUriEvent</code> streams to monitor request volume, response codes, and data payload sizes.</li>
+                    <li><strong>Transaction Security Policies:</strong> Implement automated policies that trigger instant session termination or notification alerts if an integration user attempts to query more than 1,000 records within a 1-minute window.</li>
+                    <li><strong>Log Audit Retention:</strong> Route EventLogFile outputs to external SIEM platforms (e.g., Datadog, Splunk) for immutable compliance auditing.</li>
+                </ul>
+
+                <div class="takeaway-box">
+                    <h4>Consultant Takeaway</h4>
+                    <p>Building a secure headless foundation requires treating AI agents as autonomous untrusted clients. By locking down FLS, deploying custom API contracts with explicit schema checks, and enforcing real-time transaction monitoring, enterprise orgs can safely deliver agentic capabilities at scale.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
