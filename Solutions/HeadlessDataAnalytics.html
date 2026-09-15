@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data & Analytics Insights Powered by Headless 360 - Solution Blueprint</title>
+    <style>
+        :root {
+            --primary: #0176D3;
+            --primary-dark: #014B82;
+            --accent: #00A1E0;
+            --text-main: #181818;
+            --text-muted: #5C5C5C;
+            --bg-light: #F3F3F3;
+            --bg-card: #FFFFFF;
+            --border: #DDDBDA;
+            --code-bg: #161B22;
+            --code-text: #E6EDF3;
+            --warning-bg: #FFF7E6;
+            --warning-border: #FFA500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        aside nav a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        aside nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Architecture Container */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+        /* Step titles & code elements */
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callout Boxes */
+        .warning-box, .takeaway-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box {
+            background-color: #E8F4FD;
+            border-left-color: var(--primary);
+        }
+
+        .warning-box h4, .takeaway-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box h4 { color: #B06000; }
+        .takeaway-box h4 { color: var(--primary-dark); }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-card {
+            padding: 1.25rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .comparison-card.bad {
+            background-color: #FFF5F5;
+            border-left: 4px solid #D9381E;
+        }
+
+        .comparison-card.good {
+            background-color: #F0FFF4;
+            border-left: 4px solid #2E7D32;
+        }
+
+        .comparison-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-card.bad h4 { color: #D9381E; }
+        .comparison-card.good h4 { color: #2E7D32; }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            aside {
+                width: 100%;
+                height Array;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .arch-row { flex-direction: column; }
+            .arch-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
+        <h1>Headless 360 Analytics</h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#governed-semantics">2. Governed Semantics in Tableau Next</a>
+            <a href="#pipeline-usecase">3. Case Study: Q1 Pipeline Review</a>
+            <a href="#architecture">4. End-to-End Solution Architecture</a>
+            <a href="#implementation">5. Simple AI Agent Implementation</a>
+            <a href="#governance-monitoring">6. Governance &amp; Monitoring Controls</a>
+        </nav>
+    </aside>
+
+    <div class="container">
+        <main>
+            <section id="overview">
+                <h2>1. What the Solution Does</h2>
+                <p>Delivering Governed Metrics, Semantic Models, and Real-Time Agentic Analytics via Headless 360</p>
+                <p>Headless analytics decouples business intelligence processing and metric definitions from static dashboards, exposing unified analytical models directly to autonomous AI agents, Model Context Protocol (MCP) clients, and headless experience layers. Built on the Headless 360 platform, Tableau Next exposes a standardized semantic layer and execution engine. This enables AI agents to query business-critical KPIs and execute data-driven actions while strictly honoring corporate governance rules.</p>
+            </section>
+
+            <section id="governed-semantics">
+                <h2>2. Granting Agents Access to Governed Semantics in Tableau Next</h2>
+                <p>When autonomous AI agents generate analytics responses without a shared semantic layer, they query disparate raw tables or construct hallucinated SQL calculations. Tableau Next addresses this through Tableau Semantics—a centralized business model layer where calculations, KPI logic, currency conversions, and data relationships are verified once by data stewards and exposed via headless APIs.</p>
+
+                <h3>How Agents Access the Tableau Next Semantic Model</h3>
+                <p>External AI agents or Agentforce workers interact with Tableau Next using the standard <strong>Tableau Next MCP Server</strong> (or native VizQL Data Services). Instead of issuing direct SQL queries against ungoverned database tables, the agent calls the <code class="inline">analyze_data</code> or <code class="inline">discover_metrics</code> tools exposed by Tableau Next Concierge. The analytics engine evaluates the user's security context, executes the query against the defined semantic model, and returns a trusted calculation along with visual assets.</p>
+            </section>
+
+            <section id="pipeline-usecase">
+                <h2>3. Business Impact: Q1 Pipeline Review Use Case</h2>
+                <p>To understand why ungoverned analytics creates operational risk, consider a <strong>Sales Director requesting a Q1 Pipeline Review</strong> through a headless conversational AI agent.</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card bad">
+                        <h4>❌ Scenario A: Ungoverned &amp; Disjointed Data</h4>
+                        <p><strong>Setup:</strong> AI agent directly queries raw <code class="inline">Opportunity</code> tables in CRM alongside un-synchronized ERP tables in a data warehouse without a semantic layer.</p>
+                        <p><strong>Execution:</strong> Agent calculates "Q1 Pipeline" by summing all open opportunities closing in Q1, failing to filter out un-qualified stages, un-converted currency rates, or duplicate enterprise child accounts.</p>
+                        <p><strong>Bad Consequence:</strong> The Sales Director receives a bloated pipeline report showing $25M instead of the true $14M. The executive makes strategic hiring and revenue forecasting decisions based on flawed numbers, leading to missed quarterly guidance and lost board confidence.</p>
+                    </div>
+                    <div class="comparison-card good">
+                        <h4> Scenario B: Governed Tableau Next Model</h4>
+                        <p><strong>Setup:</strong> AI agent calls the <strong>Tableau Next MCP Server</strong> pointing to the verified <code class="inline">Sales_Pipeline_SDM</code> (Semantic Data Model).</p>
+                        <p><strong>Execution:</strong> Tableau Next applies corporate business rules: includes stages &gt;= 20% probability, applies daily corporate exchange rates, and reconciles CRM accounts with Data Cloud unified IDs.</p>
+                        <p><strong>Trusted Outcome:</strong> The agent returns an accurate pipeline figure ($14.2M), breaks down closed-won trajectory, and highlights 3 high-risk deals using automated trend detection.</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h4>Risks of Fragmented Business Analytics Data</h4>
+                    <ul>
+                        <li><strong>Inconsistent Metric Calculations:</strong> Sales, Marketing, and Finance agents output conflicting ARR or churn figures for the same account.</li>
+                        <li><strong>Security &amp; Row-Level Bypasses:</strong> Direct database queries by LLMs bypass row-level security (RLS), potentially revealing compensation or restricted enterprise deal terms.</li>
+                        <li><strong>Stale Grounding Context:</strong> Ingestion pipelines without real-time reconciliation force agents to base decisions on stale batch data snapshots.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="architecture">
+                <h2>4. End-to-End Solution Architecture</h2>
+                <p>The solution connects the user-facing AI client to core CRM data and business processes via Tableau Next's headless analytics and automation layer:</p>
+
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>1. AI Agent / MCP Client</strong>
+                                <span>Natural Language Query Input</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>2. Tableau Next MCP Server</strong>
+                                <span>Tool Discovery &amp; Security Scoping</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>4. Action Engine &amp; CRM Flow</strong>
+                                <span>Automated Workflow Execution</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>3. Tableau Semantics Engine</strong>
+                                <span>Governed Metric Resolution &amp; RLS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li><strong>AI Agent / MCP Client Layer:</strong> Accepts natural language inquiries (e.g., "What is our Q1 weighted pipeline?") and identifies required tool calls.</li>
+                        <li><strong>Tableau Next MCP Server:</strong> Translates conversational intents into calls against published Tableau Semantic Data Models (SDMs).</li>
+                        <li><strong>Tableau Semantics Engine:</strong> Applies canonical metric definitions, row-level security, and calculates governed KPIs on real-time Data Cloud / Salesforce platform data.</li>
+                        <li><strong>Action Layer (Flow Integration):</strong> Enables the agent to trigger workflow actions directly from analytical findings (e.g., creating a risk escalation record or scheduling deal reviews).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="implementation">
+                <h2>5. Implementation: AI Agent Querying Governed Pipeline Analytics</h2>
+                <p><strong>Scenario:</strong> Configure a headless REST / MCP integration allowing an AI agent to execute pipeline inquiries and execute automated sales risk escalations.</p>
+
+                <h3>1. Exposing the Governed Semantic Model via Apex / REST</h3>
+                <p>When building custom headless endpoints alongside Tableau Next MCP, use structured wrapper classes that execute logic within the user's security context:</p>
+
+<pre><code>@RestResource(urlMapping='/v1/analytics/pipelineReview/*')
+global with sharing class HeadlessPipelineAnalyticsController {
+
+    @HttpGet
+    global static PipelineSummaryResponse getQ1PipelineSummary() {
+        // Enforce user read permissions on Opportunity metrics
+        if (!Schema.sObjectType.Opportunity.isAccessible()) {
+            RestContext.response.statusCode = 403;
+            return new PipelineSummaryResponse('ERROR', 'Access denied to opportunity metrics.', 0);
+        }
+
+        // Query unified metric layer via aggregate engine
+        AggregateResult[] results = [
+            SELECT SUM(Amount) totalAmount, StageName 
+            FROM Opportunity 
+            WHERE CloseDate = THIS_QUARTER AND IsClosed = false
+            WITH USER_MODE
+            GROUP BY StageName
+        ];
+
+        Decimal totalPipeline = 0;
+        for (AggregateResult ar : results) {
+            totalPipeline += (Decimal) ar.get('totalAmount');
+        }
+
+        return new PipelineSummaryResponse('SUCCESS', 'Q1 Governed Pipeline Calculated', totalPipeline);
+    }
+
+    global class PipelineSummaryResponse {
+        public String status;
+        public String message;
+        public Decimal pipelineTotal;
+        public PipelineSummaryResponse(String status, String message, Decimal pipelineTotal) {
+            this.status = status;
+            this.message = message;
+            this.pipelineTotal = pipelineTotal;
+        }
+    }
+}</code></pre>
+            </section>
+
+            <section id="governance-monitoring">
+                <h2>6. Governance Rules and Real-Time Monitoring Controls</h2>
+                <p>To ensure headless analytics integrations remain safe, performant, and compliant, deploy strict governance and audit policies:</p>
+
+                <h3>Core Governance Rules</h3>
+                <div class="takeaway-box">
+                    <h4>Mandatory Policy Rules for Headless Analytics</h4>
+                    <ol>
+                        <li><strong>Canonical Metric Authorization:</strong> AI agents must query metric objects through published Tableau Semantic Data Models or governed APIs. Direct un-aggregated queries to base tables for reporting are prohibited.</li>
+                        <li><strong>User Security Context Propagation:</strong> Every headless request must pass the end-user's OAuth context to enforce Row-Level Security (RLS) and Field-Level Security (FLS).</li>
+                        <li><strong>Write-Back Safeguards:</strong> Any analytical action that mutates CRM data (e.g., updating deal stages or discount flags) must require explicitly defined Flow approval parameters.</li>
+                    </ol>
+                </div>
+
+                <h3>Monitoring and Audit Setup</h3>
+                <ul>
+                    <li><strong>Tableau Next Activity Logs:</strong> Monitor query execution frequency, tool selection latency, and model access through Tableau Next admin telemetry.</li>
+                    <li><strong>Salesforce Event Monitoring (Shield):</strong> Track <code class="inline">RestApiEvent</code> and <code class="inline">ReportEvent</code> streams to audit record volumes fetched by integration service users.</li>
+                    <li><strong>Anomaly Threshold Alerts:</strong> Set transaction security policies to auto-suspend tokens if an agent executes excessive analytical queries (&gt;50 calls/min) or attempts to bypass semantic filters.</li>
+                </ul>
+
+                <div class="takeaway-box">
+                    <h4>Consultant Takeaway</h4>
+                    <p>Headless analytics powered by Tableau Next and the Headless 360 platform unlocks real-time, agentic decision-making. By grounding AI agents in standardized semantic models rather than raw database schemas, enterprises deliver consistent, trusted insights straight into modern workflows.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
