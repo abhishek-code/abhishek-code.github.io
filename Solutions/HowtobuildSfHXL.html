@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to build Headless Experience Layer (HXL) - Custom Lightning Types, Widgets & Supported Channels</title>
+    <title>How to build Headless Experience Layer (HXL) - Custom Lightning Types, Components, Widgets & Supported Channels</title>
     <style>
         :root {
             --primary: #0176D3;
@@ -297,7 +297,7 @@
             <section id="overview">
                 <h2>1. What the Solution Does</h2>
                 <p>Delivering Rich Agentic UI and Headless Interactive Experiences via Custom Lightning Types, Components, Widgets, and Supported Channels</p>
-                <p>The Salesforce Headless Experience Layer (HXL) extends agentic capabilities beyond plain text conversations. By decoupling raw server execution from display rendering, HXL uses <strong>Custom Lightning Types</strong>, <strong>Lightning Web Components (LWCs)</strong>, and <strong>HXL Declarative Widgets</strong> to deliver rich, interactive user experiences. A single Apex action payload or Model Context Protocol (MCP) tool response can render native LWC components inside Salesforce apps and declarative HXL Widgets on external surfaces such as ChatGPT, Claude, Slack, or embedded web applications.</p>
+                <p>The Salesforce Headless Experience Layer (HXL) extends agentic capabilities beyond plain text conversations. By decoupling raw server execution from display rendering, HXL uses <strong>Custom Lightning Types</strong>, <strong>Components</strong>, and <strong>HXL Declarative Widgets</strong> to deliver rich, interactive user experiences. A single Apex action payload or Model Context Protocol (MCP) tool response can render native LWC components inside Salesforce apps and declarative HXL Widgets on external surfaces such as ChatGPT, Claude, Slack, or embedded web applications.</p>
             </section>
 
             <section id="building-blocks">
@@ -306,7 +306,7 @@
 
                 <ul>
                     <li><strong>Custom Lightning Type (<code class="inline">LightningTypeBundle</code>):</strong> The metadata bundle that defines data validation schema (<code class="inline">schema.json</code>), mapping Apex structures or object shapes to UI configurations.</li>
-                    <li><strong>LWC Overrides (In-App Channels):</strong> Code-based custom UI (HTML, JS, CSS) used for collecting structured input (<code class="inline">editor.json</code>) or displaying rich output (<code class="inline">renderer.json</code>) within internal Salesforce applications.</li>
+                    <li><strong>Components (In-App Channels):</strong> Code-based custom UI (HTML, JS, CSS) used for collecting structured input (<code class="inline">editor.json</code>) or displaying rich output (<code class="inline">renderer.json</code>) within internal Salesforce applications.</li>
                     <li><strong>HXL Widgets (<code class="inline">UiWidgetBundle</code>):</strong> Declarative, JSON-composed UI components that use an attribute contract (<code class="inline">schema.json</code>). Rendered through root-level <code class="inline">renderer.json</code> files, widgets enable consistent UI across both native Salesforce surfaces and external MCP host applications (e.g., ChatGPT, Claude).</li>
                     <li><strong>Supported Channels &amp; Surfaces:</strong> Specific interaction environments (e.g., Agentforce Desktop, Mobile, Experience Builder, or MCP clients) that consume the rendered outputs.</li>
                 </ul>
