@@ -482,13 +482,13 @@
                     <ol>
                         <li><strong>Deploy via Salesforce CLI &amp; Metadata API:</strong> Do not create or edit widget-backed Custom Lightning Types manually in Setup. Define and deploy them via source control using <code class="inline">LightningTypeBundle</code> and <code class="inline">UiWidgetBundle</code> metadata types.</li>
                         <li><strong>Maintain Attribute Contracts:</strong> Always include a valid <code class="inline">schema.json</code> file in widget bundles to enable compile-time data validation and attribute mapping.</li>
-                        <li><strong>Strict Separation of Rendering Files:</strong> Keep LWC overrides isolated in channel subfolders (e.g., <code class="inline">lightningDesktopGenAi/renderer.json</code>) while placing HXL Widget mappings at the root level.</li>
+                        <li><strong>Strict Separation of Rendering Files:</strong> Keep Component overrides isolated in channel subfolders (e.g., <code class="inline">lightningDesktopGenAi/renderer.json</code>) while placing HXL Widget mappings at the root level.</li>
                     </ol>
                 </div>
 
                 <div class="warning-box">
                     <h4>Architectural Summary</h4>
-                    <p>By pairing Custom Lightning Types with LWCs for native Salesforce surfaces and HXL Widgets for external MCP platforms, enterprises can deliver a unified, high-fidelity user interface across every AI channel—without duplicating business logic or backend code.</p>
+                    <p>By pairing Custom Lightning Types with Components and HXL Widgets for external MCP platforms, enterprises can deliver a unified, high-fidelity user interface across every AI channel—without duplicating business logic or backend code.</p>
                 </div>
             </section>
         </main>
