@@ -299,6 +299,61 @@
             .arch-row { flex-direction: column; }
             .arch-arrow { transform: rotate(90deg); }
         }
+
+      .solution-link-card {
+            border: 1px solid var(--border);
+            background-color: var(--bg-light);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .solution-link-card:hover {
+            border-color: var(--primary);
+        }
+
+        .solution-link-card a {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .solution-link-card a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+      .solution-link-card {
+            border: 1px solid var(--border);
+            background-color: var(--bg-light);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .solution-link-card:hover {
+            border-color: var(--primary);
+        }
+
+        .solution-link-card a {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .solution-link-card a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        
     </style>
 </head>
 <body>
@@ -334,6 +389,13 @@
             <section id="lead-conversion">
                 <h2>Predictive Outputs from Einstein 360 Model Builder - Lead Conversion Solution Blueprint</h2>
                 <p>Deploying predictive scoring engines built via Model Builder inside Data Cloud to drive real-time lead conversion routing and Agentforce autonomous follow-ups.</p>
+               
+                <div class="solution-link-card">
+                <a href=".predictiveoutputsfrommodelbuilder.html">
+                    Predictive Outputs from Einstein 360 Model Builder - Lead Conversion Solution Blueprint &rarr;
+                </a>
+               </div>
+                
                 <div class="architecture-container">
                     <div class="architecture-grid">
                         <div class="arch-row">
@@ -366,6 +428,11 @@
             <section id="adv-rag-data360">
                 <h2>Advanced RAG with Data 360 Architecture</h2>
                 <p>Architecting hybrid retrieval-augmented generation (RAG) using Data Cloud Vector Search, semantic chunking, and unified Data 360 customer profiles.</p>
+                  <div class="solution-link-card">
+                <a href="./Solutions/AdvancedRAGwithDataCloud.html">
+                    Advanced RAG with Data 360 Solution &rarr;
+                </a>
+               </div>
                 <div class="takeaway-box">
                     <h4>Hybrid RAG Strategy</h4>
                     <ul>
@@ -379,11 +446,21 @@
                 <h2>Agentforce Admin for Setup</h2>
                 <p>Establishing administrator governance, permission sets, Atlas reasoning configurations, and action topic assignments within Salesforce Setup.</p>
                 <p>Admin setup includes topic routing definitions, agent capability constraints, and safety guardrail provisioning.</p>
+                <div class="solution-link-card">
+                <a href="./Solutions/AgentforceSetupforAdmin.html">
+                    Agentforce Admin for Setup &rarr;
+                </a>
+               </div>
             </section>
 
             <section id="af-tablea-data360">
                 <h2>Tableau Semantics with Data 360</h2>
                 <p>Connecting Agentforce reasoning agents to Tableau Next semantic models for conversational business analytics and verified KPI calculations.</p>
+                <div class="solution-link-card">
+                <a href="./Solutions/TableaSemanticswithData360.html">
+                    Tableau Semantics with Data 360 &rarr;
+                </a>
+               </div>
                 <div class="warning-box">
                     <h4>Metric Consistency</h4>
                     <p>By enforcing query resolution via Tableau Semantics rather than dynamic SQL generation on raw objects, enterprises guarantee consistent KPI definitions across both agents and dashboards.</p>
@@ -393,6 +470,11 @@
             <section id="af-salesandservice-data360">
                 <h2>Sales and Service with Data 360</h2>
                 <p>Unifying Sales Cloud opportunities and Service Cloud case resolutions with Data Cloud unified profiles for autonomous cross-cloud agentic workflows.</p>
+                <div class="solution-link-card">
+                <a href="./Solutions/SalesandServicewithData360.html">
+                    Sales and Service with Data 360 &rarr;
+                </a>
+               </div>
 <pre><code>public class SalesServiceAgentConnector {
     @InvocableMethod(label='Get Unified Customer Context' description='Retrieves unified sales and service metrics for agent grounding')
     public static List&lt;CustomerContextResult&gt; getCustomerContext(List&lt;String&gt; accountIds) {
@@ -418,11 +500,23 @@
             <section id="lm-data360-solutionblueprint">
                 <h2>Loyalty Management and Data Cloud 360 Integration - Solution Blueprint</h2>
                 <p>Architecting real-time tier calculation, points accrual triggers, and hyper-personalized rewards delivery by binding Loyalty Management data models to Data Cloud 360.</p>
+                <div class="solution-link-card">
+                <a href="./Solutions/LoyaltyManagementwithData360.html">
+                    Loyalty Management and Data Cloud 360 Integration - Solution Blueprint &rarr;
+                </a>
+               </div>
+
+            
             </section>
 
             <section id="emaildelivery-mrktcloudnxt-solutionblueprint">
                 <h2>Enterprise Email Delivery Foundation on Marketing Cloud Next - Solution Blueprint</h2>
                 <p>Building scalable, transactional, and marketing email delivery infrastructure using Marketing Cloud Next, Data Cloud segments, and real-time event streaming.</p>
+                <div class="solution-link-card">
+                <a href="./Solutions/MarketingCloudNextEmailSendingEssentials.html">
+                    Enterprise Email Delivery Foundation on Marketing Cloud Next - Solution Blueprint &rarr;
+                </a>
+               </div>
             </section>
 
             <!-- SECTION GROUP 2: SALESFORCE HXL - SOLUTION BLUEPRINT -->
@@ -430,7 +524,11 @@
             <section id="af-headless360-usecases">
                 <h2>Agentforce Headless 360 Use Cases</h2>
                 <p>Exposing Agentforce AI capabilities and 360-degree customer data across custom frontends, third-party apps, and autonomous agent platforms.</p>
-
+                <div class="solution-link-card">
+                <a href="./Solutions/Headless360UseCases.html">
+                    Agentforce Headless 360 Use Cases &rarr;
+                </a>
+               </div>
                 <div class="comparison-grid">
                     <div class="comparison-card bad">
                         <h4>❌ Monolithic UI Coupling</h4>
@@ -446,6 +544,11 @@
             <section id="datafoundationsforhxl-solutionblueprint">
                 <h2>Data Foundations for Headless Experience Layer - Solution Blueprint</h2>
                 <p>Building a robust Data Cloud and schema foundation to power real-time headless experiences and AI context resolution.</p>
+                <div class="solution-link-card">
+                <a href="./Solutions/DataFoundationsforHXL.html">
+                    Data Foundations for Headless Experience Layer - Solution Blueprint &rarr;
+                </a>
+               </div>
                 
                 <div class="architecture-container">
                     <div class="architecture-grid">
@@ -479,7 +582,11 @@
             <section id="securehxlfoundations-solutionblueprint">
                 <h2>Secure and Trusted Headless Foundation - Solution Blueprint</h2>
                 <p>Establishing Zero-Trust Security, Scoped OAuth Token Policies, and Least-Privilege API Control for Headless Agents.</p>
-
+                 <div class="solution-link-card">
+                <a href="./Solutions/SecureHXLFoundations.html">
+                    Secure and Trusted Headless Foundation - Solution Blueprint &rarr;
+                </a>
+               </div>
                 <div class="warning-box">
                     <h4>Security Precaution</h4>
                     <p>Always avoid assigning generic System Administrator profiles to integration users. Require dedicated Integration Licenses with explicit Field-Level Security (FLS) boundaries.</p>
@@ -507,12 +614,22 @@ global with sharing class SecureHeadlessService {
                 <h2>Headless 360 Analytics Powered by Tableau Next - Solution Blueprint</h2>
                 <p>Delivering Governed Metrics, Semantic Data Models, and Real-Time Agentic Analytics via Tableau Next.</p>
                 <p>Headless analytics decouples metric calculations from static visual dashboards. Autonomous agents interact with Tableau Next MCP servers to retrieve verified corporate KPIs while strictly respecting row-level security.</p>
+                 <div class="solution-link-card">
+                <a href="./Solutions/HeadlessDataAnalytics.html">
+                    Headless 360 Analytics Powered by Tableau Next - Solution Blueprint &rarr;
+                </a>
+               </div>
             </section>
 
             <section id="hxlhowtobuild-solutionblueprint">
                 <h2>Headless Experience Layer: Custom Types, Widgets &amp; Supported Channels</h2>
                 <p>Constructing rich agentic UI using Custom Lightning Types (<code class="inline">LightningTypeBundle</code>), LWC Overrides, and HXL Declarative Widgets (<code class="inline">UiWidgetBundle</code>).</p>
-
+                  <div class="solution-link-card">
+                <a href="./Solutions/HowtobuildSfHXL.html">
+                  Headless Experience Layer: Custom Types, Widgets &amp; Supported Channels &rarr;
+                </a>
+               </div>
+                
                 <h3>Step-by-Step Implementation Flow</h3>
                 <ul class="steps">
                     <li>
