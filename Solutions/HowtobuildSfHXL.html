@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to build Headless Experience Layer (HXL) - Custom Lightning Types, Widgets & Supported Channels</title>
+    <style>
+        :root {
+            --primary: #0176D3;
+            --primary-dark: #014B82;
+            --accent: #00A1E0;
+            --text-main: #181818;
+            --text-muted: #5C5C5C;
+            --bg-light: #F3F3F3;
+            --bg-card: #FFFFFF;
+            --border: #DDDBDA;
+            --code-bg: #161B22;
+            --code-text: #E6EDF3;
+            --warning-bg: #FFF7E6;
+            --warning-border: #FFA500;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            height: 100vh;
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        aside h1 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        aside nav a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        aside nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 280px;
+            max-width: 1000px;
+            width: calc(100% - 280px);
+            padding: 3rem 4rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Architecture Container */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+        /* Step titles & code elements */
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callout Boxes */
+        .warning-box, .takeaway-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box {
+            background-color: #E8F4FD;
+            border-left-color: var(--primary);
+        }
+
+        .warning-box h4, .takeaway-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box h4 { color: #B06000; }
+        .takeaway-box h4 { color: var(--primary-dark); }
+
+        /* Multi-Channel Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-card {
+            padding: 1.25rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-card);
+        }
+
+        .comparison-card.sf-app {
+            border-left: 4px solid var(--primary);
+        }
+
+        .comparison-card.external-app {
+            border-left: 4px solid var(--accent);
+        }
+
+        .comparison-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            aside {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .arch-row { flex-direction: column; }
+            .arch-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <p><a href="https://abhishek-code.github.io/">← Salesforce Agentic Enterprise Solutions</a></p>
+        <h1>How to build Headless Experience Layer (HXL) </h1>
+        <nav>
+            <a href="#overview">1. Solution Overview</a>
+            <a href="#building-blocks">2. HXL Core Concepts &amp; Artifacts</a>
+            <a href="#architecture">3. End-to-End Solution Architecture</a>
+            <a href="#usecase-steps">4. Step-by-Step Implementation</a>
+            <a href="#supported-channels">5. Supported Channels &amp; Overrides</a>
+            <a href="#takeaways">6. Governance &amp; Key Takeaways</a>
+        </nav>
+    </aside>
+
+    <div class="container">
+        <main>
+            <section id="overview">
+                <h2>1. What the Solution Does</h2>
+                <p>Delivering Rich Agentic UI and Headless Interactive Experiences via Custom Lightning Types, Components, Widgets, and Supported Channels</p>
+                <p>The Salesforce Headless Experience Layer (HXL) extends agentic capabilities beyond plain text conversations. By decoupling raw server execution from display rendering, HXL uses <strong>Custom Lightning Types</strong>, <strong>Lightning Web Components (LWCs)</strong>, and <strong>HXL Declarative Widgets</strong> to deliver rich, interactive user experiences. A single Apex action payload or Model Context Protocol (MCP) tool response can render native LWC components inside Salesforce apps and declarative HXL Widgets on external surfaces such as ChatGPT, Claude, Slack, or embedded web applications.</p>
+            </section>
+
+            <section id="building-blocks">
+                <h2>2. HXL Core Architecture &amp; Artifacts</h2>
+                <p>Building rich UI experiences in Salesforce Headless requires understanding how data shapes bind to input and output renderers across different surfaces:</p>
+
+                <ul>
+                    <li><strong>Custom Lightning Type (<code class="inline">LightningTypeBundle</code>):</strong> The metadata bundle that defines data validation schema (<code class="inline">schema.json</code>), mapping Apex structures or object shapes to UI configurations.</li>
+                    <li><strong>LWC Overrides (In-App Channels):</strong> Code-based custom UI (HTML, JS, CSS) used for collecting structured input (<code class="inline">editor.json</code>) or displaying rich output (<code class="inline">renderer.json</code>) within internal Salesforce applications.</li>
+                    <li><strong>HXL Widgets (<code class="inline">UiWidgetBundle</code>):</strong> Declarative, JSON-composed UI components that use an attribute contract (<code class="inline">schema.json</code>). Rendered through root-level <code class="inline">renderer.json</code> files, widgets enable consistent UI across both native Salesforce surfaces and external MCP host applications (e.g., ChatGPT, Claude).</li>
+                    <li><strong>Supported Channels &amp; Surfaces:</strong> Specific interaction environments (e.g., Agentforce Desktop, Mobile, Experience Builder, or MCP clients) that consume the rendered outputs.</li>
+                </ul>
+            </section>
+
+            <section id="architecture">
+                <h2>3. End-to-End Solution Architecture Blueprint</h2>
+                <p>This architecture blueprint illustrates how a single Apex-backed Custom Lightning Type routes through HXL to render targeted components or widgets based on the channel context:</p>
+
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>1. Host Surfaces &amp; Channels</strong>
+                                <span>Agentforce, Mobile, Slack, ChatGPT, Claude</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>2. Custom Lightning Type</strong>
+                                <span><code class="inline">LightningTypeBundle</code> &amp; Schema Validation</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>4. UI Rendering Layer</strong>
+                                <span>In-App LWC vs. Cross-Platform HXL Widget</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>3. Apex / MCP Service Payload</strong>
+                                <span>Structured <code class="inline">@AuraEnabled</code> Class Data</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li><strong>Action Trigger &amp; Execution:</strong> An Agentforce agent or external MCP client invokes an Apex-backed action.</li>
+                        <li><strong>Type Definition &amp; Validation:</strong> Salesforce evaluates the returned object structure against the <code class="inline">schema.json</code> of the targeted Custom Lightning Type.</li>
+                        <li><strong>Channel Resolution:</strong> HXL inspects the channel header. If the channel is a native Salesforce application, it resolves channel-specific subfolders (e.g., <code class="inline">lightningDesktopGenAi</code>). If the request arrives via MCP (e.g., ChatGPT/Slack), it evaluates the root-level <code class="inline">renderer.json</code> pointing to an HXL Widget.</li>
+                        <li><strong>UI Composition &amp; Display:</strong> The host surface renders either the native LWC or the HXL JSON Widget card.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="usecase-steps">
+                <h2>4. Step-by-Step Implementation: Flight Reservation Custom UI</h2>
+                <p><strong>Scenario:</strong> Build a custom Salesforce headless solution for a "Flight Booking &amp; Seat Selection" workflow. The agent collects filter options using a custom form component and renders interactive flight cards across multiple display channels.</p>
+
+                <h3>Step 1: Define the Apex Payload Data Model (~1.5 min)</h3>
+                <p>Create an Apex class with <code class="inline">@AuraEnabled</code> fields that define the structured data payload returned by the business process:</p>
+
+<pre><code>public with sharing class FlightSearchResult {
+    @AuraEnabled public String flightNumber;
+    @AuraEnabled public String airline;
+    @AuraEnabled public String departureAirport;
+    @AuraEnabled public String arrivalAirport;
+    @AuraEnabled public Decimal price;
+    @AuraEnabled public String departureTime;
+
+    @InvocableMethod(label='Search Flights' description='Returns structured flight results for HXL UI rendering')
+    public static List&lt;FlightSearchResult&gt; searchFlights(List&lt;String&gt; destinationCodes) {
+        List&lt;FlightSearchResult&gt; results = new List&lt;FlightSearchResult&gt;();
+        FlightSearchResult res = new FlightSearchResult();
+        res.flightNumber = 'SF-101';
+        res.airline = 'Salesforce Air';
+        res.departureAirport = 'SFO';
+        res.arrivalAirport = destinationCodes.isEmpty() ? 'JFK' : destinationCodes[0];
+        res.price = 350.00;
+        res.departureTime = '08:00 AM';
+        results.add(res);
+        return results;
+    }
+}</code></pre>
+
+                <h3>Step 2: Create the Custom Lightning Type Bundle (~2 min)</h3>
+                <p>In your Salesforce DX project under <code class="inline">force-app/main/default/lightningTypes/flightResult</code>, create the required <code class="inline">schema.json</code> file referencing the Apex class:</p>
+
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Flight Search Result",
+  "type": "object",
+  "lightning:type": "@apexClassType/FlightSearchResult",
+  "properties": {
+    "flightNumber": { "type": "string" },
+    "airline": { "type": "string" },
+    "price": { "type": "number" },
+    "departureTime": { "type": "string" }
+  }
+}</code></pre>
+
+                <h3>Step 3: Configure Channel-Specific LWC UI Overrides (~2 min)</h3>
+                <p>To render a custom LWC inside Agentforce for Lightning Desktop, place <code class="inline">renderer.json</code> inside the channel subfolder <code class="inline">lightningDesktopGenAi</code>:</p>
+
+<pre><code>/* File: lightningTypes/flightResult/lightningDesktopGenAi/renderer.json */
+{
+  "component": "c:flightResultCard",
+  "attributes": {
+    "flightNumber": "{!$attrs.flightNumber}",
+    "airline": "{!$attrs.airline}",
+    "price": "{!$attrs.price}",
+    "departureTime": "{!$attrs.departureTime}"
+  }
+}</code></pre>
+
+                <h3>Step 4: Configure Cross-Platform HXL Widget Override (~2 min)</h3>
+                <p>To support third-party surfaces like ChatGPT or Slack via MCP, define a root-level <code class="inline">renderer.json</code> (parallel to <code class="inline">schema.json</code>) that maps custom type properties to an HXL Widget bundle:</p>
+
+<pre><code>/* File: lightningTypes/flightResult/renderer.json */
+{
+  "componentOverrides": {
+    "widget": {
+      "name": "c:flightCardWidget",
+      "attributes": {
+        "title": "{!$attrs.airline}",
+        "subtitle": "{!$attrs.flightNumber}",
+        "badgeText": "{!$attrs.departureTime}",
+        "priceValue": "{!$attrs.price}"
+      }
+    }
+  }
+}</code></pre>
+
+                <h3>Step 5: Define the HXL Declarative Widget Bundle (~2 min)</h3>
+                <p>Create the HXL Widget bundle in <code class="inline">force-app/main/default/uiwidgets/flightCardWidget</code> using a <code class="inline">schema.json</code> attribute contract and a composition definition:</p>
+
+<pre><code>/* File: uiwidgets/flightCardWidget/schema.json */
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string" },
+    "subtitle": { "type": "string" },
+    "badgeText": { "type": "string" },
+    "priceValue": { "type": "number" }
+  }
+}</code></pre>
+            </section>
+
+            <section id="supported-channels">
+                <h2>5. Supported Channels and Application Overrides</h2>
+                <p>HXL handles UI rendering differently depending on whether the target platform is an internal Salesforce application or an external partner channel:</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card sf-app">
+                        <h4>🏢 Native Salesforce Applications (LWC Overrides)</h4>
+                        <p>Uses channel-specific subfolders inside <code class="inline">LightningTypeBundle</code>. Supports both input forms (<code class="inline">editor.json</code>) and output cards (<code class="inline">renderer.json</code>).</p>
+                        <ul>
+                            <li><code class="inline">lightningDesktopGenAi</code>: Agentforce Employee Agent in Lightning Desktop.</li>
+                            <li><code class="inline">enhancedWebChat</code>: Agentforce Service Agent via Enhanced Chat v2.</li>
+                            <li><code class="inline">lightningMobileGenAi</code>: Agentforce on Mobile (iOS &amp; Android).</li>
+                            <li><code class="inline">experienceBuilder</code>: Experience Cloud sites.</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card external-app">
+                        <h4>🌐 Headless Third-Party Channels (HXL Widgets)</h4>
+                        <p>Uses root-level <code class="inline">renderer.json</code> without channel subfolders. Uses JSON-based declarative composition for output rendering across MCP hosts.</p>
+                        <ul>
+                            <li><strong>ChatGPT / OpenAI MCP Client:</strong> Interactive card rendering via MCP server tools.</li>
+                            <li><strong>Claude / Anthropic MCP Client:</strong> Structured visual widget payloads.</li>
+                            <li><strong>Slackbot / Slack Apps:</strong> Interactive Block Kit/HXL widget execution.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="takeaways">
+                <h2>6. Governance &amp; Key Takeaways</h2>
+                <p>Adhering to correct project structure and governance standards ensures seamless deployment and lifecycle management for Headless Experience Layer implementations:</p>
+
+                <div class="takeaway-box">
+                    <h4>Deployment &amp; Governance Rules</h4>
+                    <ol>
+                        <li><strong>Deploy via Salesforce CLI &amp; Metadata API:</strong> Do not create or edit widget-backed Custom Lightning Types manually in Setup. Define and deploy them via source control using <code class="inline">LightningTypeBundle</code> and <code class="inline">UiWidgetBundle</code> metadata types.</li>
+                        <li><strong>Maintain Attribute Contracts:</strong> Always include a valid <code class="inline">schema.json</code> file in widget bundles to enable compile-time data validation and attribute mapping.</li>
+                        <li><strong>Strict Separation of Rendering Files:</strong> Keep LWC overrides isolated in channel subfolders (e.g., <code class="inline">lightningDesktopGenAi/renderer.json</code>) while placing HXL Widget mappings at the root level.</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <h4>Architectural Summary</h4>
+                    <p>By pairing Custom Lightning Types with LWCs for native Salesforce surfaces and HXL Widgets for external MCP platforms, enterprises can deliver a unified, high-fidelity user interface across every AI channel—without duplicating business logic or backend code.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
