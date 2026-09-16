@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salesforce Agentic Enterprise Solutions</title>
+    <title>Salesforce Architecture Solutions &amp; Blueprints</title>
     <style>
         :root {
             --primary: #0176D3;
@@ -36,51 +36,63 @@
 
         /* Sidebar Navigation */
         aside {
-            width: 280px;
+            width: 340px;
             height: 100vh;
             background-color: var(--bg-card);
             border-right: 1px solid var(--border);
             position: fixed;
-            padding: 2rem 1.5rem;
+            padding: 2rem 1.25rem;
             overflow-y: auto;
         }
 
         aside h1 {
-            font-size: 1.25rem;
-            color: var(--primary);
-            margin-bottom: 2rem;
-            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
             line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-group {
+            margin-bottom: 2rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--bg-light);
         }
 
         aside nav a {
             display: block;
             color: var(--text-muted);
             text-decoration: none;
-            padding: 0.6rem 0.8rem;
+            padding: 0.5rem 0.6rem;
             border-radius: 4px;
-            margin-bottom: 0.4rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
             font-weight: 500;
+            line-height: 1.3;
             transition: all 0.2s ease;
         }
 
-        aside nav a.active {
-            background-color: #E8F4FD;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        aside nav a:hover:not(.active) {
+        aside nav a:hover {
             background-color: var(--bg-light);
             color: var(--primary);
         }
 
         /* Main Content Container */
         main {
-            margin-left: 280px;
-            max-width: 1000px;
-            width: calc(100% - 280px);
+            margin-left: 340px;
+            max-width: 1050px;
+            width: calc(100% - 340px);
             padding: 3rem 4rem;
         }
 
@@ -91,6 +103,7 @@
             border: 1px solid var(--border);
             margin-bottom: 2.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            scroll-margin-top: 2rem;
         }
 
         h2 {
@@ -101,48 +114,175 @@
             padding-bottom: 0.5rem;
         }
 
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
         p {
             margin-bottom: 1rem;
             color: var(--text-main);
         }
 
-        .lead {
-            font-size: 1.15rem;
-            color: var(--text-muted);
+        /* Architecture Container */
+        .architecture-container {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .architecture-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
-        .solution-link-card {
-            border: 1px solid var(--border);
-            background-color: var(--bg-light);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            transition: border-color 0.2s ease;
-        }
-
-        .solution-link-card:hover {
-            border-color: var(--primary);
-        }
-
-        .solution-link-card a {
-            display: inline-flex;
+        .arch-row {
+            display: flex;
             align-items: center;
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1.1rem;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            flex-wrap: wrap;
         }
 
-        .solution-link-card a:hover {
+        .arch-node {
+            background-color: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            min-width: 200px;
+            max-width: 240px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .arch-node strong {
             color: var(--primary-dark);
-            text-decoration: underline;
+            font-size: 0.95rem;
         }
 
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
+        .arch-node span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            user-select: none;
+        }
+
+        .arch-arrow.vertical {
+            margin: -0.5rem 0;
+        }
+
+        /* Step titles & code elements */
+        .step-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        pre code {
+            display: block;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.25rem;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #30363D;
+        }
+
+        code.inline {
+            background-color: rgba(27, 31, 36, 0.08);
+            color: #CF222E;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        /* Callout Boxes */
+        .warning-box, .takeaway-box {
+            background-color: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .takeaway-box {
+            background-color: #E8F4FD;
+            border-left-color: var(--primary);
+        }
+
+        .warning-box h4, .takeaway-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box h4 { color: #B06000; }
+        .takeaway-box h4 { color: var(--primary-dark); }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-card {
+            padding: 1.25rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-card);
+        }
+
+        .comparison-card.bad {
+            background-color: #FFF5F5;
+            border-left: 4px solid #D9381E;
+        }
+
+        .comparison-card.good {
+            background-color: #F0FFF4;
+            border-left: 4px solid #2E7D32;
+        }
+
+        .comparison-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-card.bad h4 { color: #D9381E; }
+        .comparison-card.good h4 { color: #2E7D32; }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
             aside {
                 width: 100%;
                 height: auto;
@@ -155,214 +295,245 @@
                 width: 100%;
                 padding: 1.5rem;
             }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .arch-row { flex-direction: column; }
+            .arch-arrow { transform: rotate(90deg); }
         }
     </style>
 </head>
 <body>
-
     <aside>
-        <h1>Salesforce Agentic Enterprise - Solutions Blueprint</h1>
+        <h1>Architecture Hub</h1>
         <nav>
-            <a href="#lead-conversion" class="active">Predictive Outputs from Einstein 360 Model Builder - Lead Conversion Solution blueprint</a>
-        </nav>
-        <nav>
-            <a href="#adv-rag-data360" class="active">Advanced RAG with Data 360 Architecture</a>
-        </nav>
-        <nav>
-            <a href="#af-admin-setup" class="active">Agentforce Admin for Setup</a>
-        </nav>  
-        <nav>
-            <a href="#af-tablea-data360" class="active">Tablea Semantics with Data 360</a>
-        </nav>  
-        <nav>
-            <a href="#af-salesandservice-data360" class="active">Sales and Service with Data 360</a>
-        </nav> 
-        <nav>
-            <a href="#af-headless360-usecases" class="active">Headless 360 Platform Use Cases - Agentic Enterprise Solutions</a>
-        </nav> 
-        <nav>
-            <a href="#lm-data360-solutionblueprint" class="active">Loyalty Management and Data Cloud 360 Integration - Solution Blueprint</a>
-        </nav> 
-        <nav>
-            <a href="#emaildelivery-mrktcloudnxt-solutionblueprint" class="active">Enterprise Email Delivery Foundation on Marketing Cloud Next - Solution Blueprint</a>
-        </nav> 
-        <nav>
-            <a href="#datafoundationsforhxl-solutionblueprint" class="active"> Data Foundation for Headless 360 &amp; Agentic Functionality - Solution Blueprint</a>
-        </nav>
-        <nav>
-            <a href="#securehxlfoundations-solutionblueprint" class="active">Secure and Trusted Headless Foundation - Solution Blueprint</a>
-        </nav>
-        <nav>
-            <a href="#headlessanalytics360-solutionblueprint" class="active">Headless 360 Analytics - Solution Blueprint</a>
-        </nav>
-       <nav>
-            <a href="#hxlhowtobuild-solutionblueprint" class="active">How to build Headless Experience Layer (HXL) - Solution Blueprint</a>
-        </nav>
+            <div class="nav-group">
+                <div class="nav-group-title">Salesforce Agentic Enterprise - Solution Blueprints</div>
+                <a href="#lead-conversion">Predictive Outputs from Einstein 360 Model Builder - Lead Conversion Solution Blueprint</a>
+                <a href="#adv-rag-data360">Advanced RAG with Data 360 Architecture</a>
+                <a href="#af-admin-setup">Agentforce Admin for Setup</a>
+                <a href="#af-tablea-data360">Tableau Semantics with Data 360</a>
+                <a href="#af-salesandservice-data360">Sales and Service with Data 360</a>
+                <a href="#lm-data360-solutionblueprint">Loyalty Management and Data Cloud 360 Integration - Solution Blueprint</a>
+                <a href="#emaildelivery-mrktcloudnxt-solutionblueprint">Enterprise Email Delivery Foundation on Marketing Cloud Next - Solution Blueprint</a>
+            </div>
 
-       
+            <div class="nav-group">
+                <div class="nav-group-title">Salesforce HXL - Solution Blueprint</div>
+                <a href="#af-headless360-usecases">Agentforce Headless 360 Use Cases</a>
+                <a href="#datafoundationsforhxl-solutionblueprint">Data Foundations for Headless Experience Layer - Solution Blueprint</a>
+                <a href="#securehxlfoundations-solutionblueprint">Secure and Trusted Headless Foundation - Solution Blueprint</a>
+                <a href="#headlessanalytics360-solutionblueprint">Headless 360 Analytics Powered by Tableau Next - Solution Blueprint</a>
+                <a href="#hxlhowtobuild-solutionblueprint">Headless Experience Layer: Custom Types, Widgets &amp; Supported Channels</a>
+            </div>
+        </nav>
     </aside>
-    <main>
-        <!-- Section 1: Core Solution -->
-        <section id="lead-conversion">
-            <h2>Predictive Outputs from Einstein 360 Model Builder - Lead Conversion Solution blueprint</h2>
-            <p class="lead">Integrating Data Cloud intelligence models with core CRM workflows to drive higher conversion rates.</p>
-            <p>This solution covers how to leverage Custom Machine Learning Models (CMLM) or out-of-the-box templates inside Einstein 360 Model Builder to scoring leads dynamically. By synthesizing customer behavioral data across unified enterprise streams, agents and automation layers can react to real-time propensity scores.</p>
-            
-            <div class="solution-link-card">
-                <a href="./predictiveoutputsfrommodelbuilder.html">
-                    Predictive Outputs from Einstein 360 Model Builder - Lead Conversion Solution blueprint &rarr;
-                </a>
-            </div>
-        </section>
- <!-- Section 2: Core Solution -->
-        <section id="adv-rag-data360">
-            <h2>Advanced RAG with Data 360</h2>
-            <p class="lead">When Agents are grounded in data from Data 360, they access a vast knowledge base of up-to-date, unified customer data.</p>
-            <p>This solution covers how to extend Salesforce AI past basic record grounding and into true semantic search using Data 360 (Data Cloud).The RAG pipeline parses unstructured Case text fields (<code class="inline">Subject</code> and <code class="inline">Description</code>) to securely isolate contextual answers.</p>
-            
-            <div class="solution-link-card">
-                <a href="./Solutions/AdvancedRAGwithDataCloud.html">
-                    Advanced RAG with Data 360 Solution &rarr;
-                </a>
-            </div>
-        </section>
- <!-- Section 3: Core Solution -->
-        <section id="af-admin-setup">
-            <h2>Agentforce Admin for Setup</h2>
-            <p class="lead">An architectural blueprint for leveraging conversational meta-agent assistance to accelerate autonomous enterprise deployment..</p>
-            <p>This solution covers how administrators and architects leverage conversational, agentic assistance (the <em>Agentforce Setup Agent</em>) to configure core platform features and bootstrap autonomous agents using natural language.</p>
-            <p>Instead of manually navigating through complex Setup sub-menus (such as creating flows, configuring object mappings, establishing permission sets, or provisioning Agentforce Studio assets), the Setup Agent parses administrative intent to audit, configure, and assemble foundational metadata automatically.</p>
-            <div class="solution-link-card">
-                <a href="./Solutions/AgentforceSetupforAdmin.html">
-                    Agentforce Admin for SetupAgentforce Admin for Setup &rarr;
-                </a>
-            </div>
-        </section>
-<!-- Section 4: Core Solution -->
-        <section id="af-tablea-data360">
-            <h2>Tableau Semantics with Data 360 - Solution Architecture</h2>
-            <p class="lead">An architectural blueprint for Tableau Semantics with Data 360 to standardize business logic, data models, and analytical definitions across enterprise datasets in Data 360 (Data Cloud)..</p>
-            <p>This solution establishes a unified metadata model where logical views, calculated measures, and aggregated metrics are defined once in Data 360 and natively consumed by Tableau, AI models, and downstream analytics applications without data duplication.</p>
-            <p>In this architecture, semantic models convert raw Data Model Objects (DMOs) into standardized logical domains, enabling reliable self-service analytics and consistent operational grounding.</p>
-            <div class="solution-link-card">
-                <a href="./Solutions/TableaSemanticswithData360.html">
-                    Tableau Semantics with Data 360 - Solution Architecture &rarr;
-                </a>
-            </div>
-        </section>
 
-<!-- Section 5: Core Solution -->
-        <section id="af-salesandservice-data360">
-            <h2>Sales and Service with Data 360 - Solution Architecture</h2>
-            <p class="lead">An architectural blueprint for operationalizing Data 360 across Sales Cloud and Service Cloud.</p>
-            <p>The Data 360 solution ingests, unifies, and harmonizes cross-cloud data streams into Salesforce Data Cloud, constructing a Unified Customer Profile. It operationalizes these harmonized data profiles directly within core Sales Cloud and Service Cloud environments, providing sales representatives and service agents real-time access to complete engagement histories and unified field attributes.</p>
-            <div class="solution-link-card">
-                <a href="./Solutions/SalesandServicewithData360.html">
-                    Sales and Service with Data 360 - Solution Architecture &rarr;
-                </a>
-            </div>
-        </section>
+    <div class="container">
+        <main>
+            <!-- SECTION GROUP 1: SALESFORCE AGENTIC ENTERPRISE - SOLUTION BLUEPRINTS -->
 
+            <section id="lead-conversion">
+                <h2>Predictive Outputs from Einstein 360 Model Builder - Lead Conversion Solution Blueprint</h2>
+                <p>Deploying predictive scoring engines built via Model Builder inside Data Cloud to drive real-time lead conversion routing and Agentforce autonomous follow-ups.</p>
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Data Cloud Ingestion</strong>
+                                <span>Streaming Web &amp; CRM Engagement</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>Einstein Model Builder</strong>
+                                <span>Predictive Scoring Engine</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Automated Lead Routing</strong>
+                                <span>Sales Cloud &amp; Agentforce Dispatch</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>High Propensity Trigger</strong>
+                                <span>Real-Time Scoring Threshold</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<!-- Section 6: Core Solution -->
-        <section id="af-headless360-usecases">
-            <h2>Headless 360 Platform Use Cases - Agentic Enterprise Solutions</h2>
-            <p>The <strong>Headless 360 Platform</strong> decouples core business capability, data, and logic from Salesforce's default front-end presentation layer. By exposing platform capabilities via unified APIs, Model Context Protocol (MCP) tools, and CLI integrations, organizations can extend CRM operations directly into external interfaces, autonomous AI models, custom front-ends, and third-party applications.</p>
-            <p>This architecture treats Salesforce as an intelligent backend enterprise system. It enables custom mobile applications, conversational channels (e.g., Slack, LLM clients), custom storefronts, and specialized industry portals to execute transactional workflows while relying on native Salesforce identity, permissions, object rules, and automation engines.</p>
-            <p>In an agentic enterprise architecture, Headless 360 acts as the execution infrastructure layer. Autonomous AI agents and developer developer tools (such as Cursor, Claude Code, or custom LLM clients) securely execute tasks and query context inside Salesforce without human UI navigation.</p>            <div class="solution-link-card">
-            <div class="solution-link-card">   
-                <a href="./Solutions/Headless360UseCases.html">
-                    Headless 360 Platform Use Cases - Agentic Enterprise Solutions &rarr;
-                </a>
-            </div>
-        </section>
-        
+            <section id="adv-rag-data360">
+                <h2>Advanced RAG with Data 360 Architecture</h2>
+                <p>Architecting hybrid retrieval-augmented generation (RAG) using Data Cloud Vector Search, semantic chunking, and unified Data 360 customer profiles.</p>
+                <div class="takeaway-box">
+                    <h4>Hybrid RAG Strategy</h4>
+                    <ul>
+                        <li><strong>Unstructured Indexing:</strong> Ingest PDFs, knowledge bases, and interaction transcripts into Data Cloud Vector Database.</li>
+                        <li><strong>Structured Grounding:</strong> Merge unstructured semantic similarity results with verified CRM record fields before prompt synthesis.</li>
+                    </ul>
+                </div>
+            </section>
 
-<!-- Section 7: Core Solution -->
-        <section id="lm-data360-solutionblueprint">
-            <h2>Loyalty Management and Data Cloud 360 Integration - Solution Blueprint</h2>
-            <p>Integrating Salesforce Loyalty Management with Data 360 for Unified Member Profiles and Actionable Segmentation</p>
-            <p>This solution establishes a bidirectional synchronization pattern between Salesforce Loyalty Management and Salesforce Data Cloud. It ingests member program details, point ledgers, tier changes, and promotion engagements into Data Cloud to harmonize loyalty records with cross-channel behavior. The resulting insights enable dynamic segment generation, targeted promotion triggers, and personalized engagement across operational channels.</p>
-            <div class="solution-link-card">
-            <a href="./Solutions/LoyaltyManagementwithData360.html">
-                    Loyalty Management and Data Cloud 360 Integration - Solution Blueprint &rarr;
-                </a>
-            </div>
-        </section>
+            <section id="af-admin-setup">
+                <h2>Agentforce Admin for Setup</h2>
+                <p>Establishing administrator governance, permission sets, Atlas reasoning configurations, and action topic assignments within Salesforce Setup.</p>
+                <p>Admin setup includes topic routing definitions, agent capability constraints, and safety guardrail provisioning.</p>
+            </section>
 
-<!-- Section 8: Core Solution -->
-        <section id="lm-data360-solutionblueprint">
-            <h2>Loyalty Management and Data Cloud 360 Integration - Solution Blueprint</h2>
-            <p>Integrating Salesforce Loyalty Management with Data 360 for Unified Member Profiles and Actionable Segmentation</p>
-            <p>This solution establishes a bidirectional synchronization pattern between Salesforce Loyalty Management and Salesforce Data Cloud. It ingests member program details, point ledgers, tier changes, and promotion engagements into Data Cloud to harmonize loyalty records with cross-channel behavior. The resulting insights enable dynamic segment generation, targeted promotion triggers, and personalized engagement across operational channels.</p>
-            <div class="solution-link-card">    
-            <a href="./Solutions/LoyaltyManagementwithData360.html">
-                    Loyalty Management and Data Cloud 360 Integration - Solution Blueprint &rarr;
-                </a>
-            </div>
-        </section>
+            <section id="af-tablea-data360">
+                <h2>Tableau Semantics with Data 360</h2>
+                <p>Connecting Agentforce reasoning agents to Tableau Next semantic models for conversational business analytics and verified KPI calculations.</p>
+                <div class="warning-box">
+                    <h4>Metric Consistency</h4>
+                    <p>By enforcing query resolution via Tableau Semantics rather than dynamic SQL generation on raw objects, enterprises guarantee consistent KPI definitions across both agents and dashboards.</p>
+                </div>
+            </section>
 
-        <!-- Section 9: Core Solution -->
-        <section id="emaildelivery-mrktcloudnxt-solutionblueprint">
-            <h2>Enterprise Email Delivery Foundation on Marketing Cloud Next - Solution Blueprint</h2>
-            <p>This solution establishes a standardized email delivery framework natively on core Salesforce infrastructure. It configures domain authentication, subscriber consent tracking, dynamic email template composition, and campaign execution using Flow-based marketing automation and Data Cloud data models without requiring traditional Marketing Cloud Engagement (ExactTarget) middleware.</p>
-            <div class="solution-link-card">   
-            <a href="./Solutions/MarketingCloudNextEmailSendingEssentials.html">
-                    Enterprise Email Delivery Foundation on Marketing Cloud Next - Solution Blueprint &rarr;
-                </a>
-            </div>
-        </section>
-
-<!-- Section 10: Core Solution -->
-        <section id="datafoundationsforhxl-solutionblueprint">
-            <h2>Architecting the Semantic Data Foundation for Headless 360 &amp; Agentic Functionality - Solution Blueprint</h2>
-            <p>Headless experience layers decouple the presentation UI from underlying CRM services, enabling autonomous AI agents, web/mobile frontends, and Model Context Protocol (MCP) clients to interact directly with Salesforce data and logic. This blueprint outlines how to structure data foundations, refine object metadata, and enforce explicit field semantics so that autonomous agents interpret business context accurately and execute decisions safely.</p>
-            <div class="solution-link-card">
-            <a href="./Solutions/DataFoundationsforHXL.html">
-                   Data Foundation for Headless 360 &amp; Agentic Functionality - Solution Blueprint &rarr;
-                </a>
-            </div>
-        </section>
-
-<!-- Section 11: Core Solution -->
-        <section id="securehxlfoundations-solutionblueprint">
-            <h2>Secure and Trusted Headless Foundation - Solution Blueprint</h2>
-            <p>Establishing Security, Trust, and Governed Execution across Headless AI &amp; 3rd-Party Integrations</p>
-             <p>When external AI agents, Model Context Protocol (MCP) clients, and third-party tools execute business processes headlessly via APIs, traditional UI-level security boundaries no longer apply. This blueprint details how to enforce zero-trust architecture, strict least-privilege scoping, dynamic governance rules, and continuous monitoring for headless Salesforce implementations.</p>
-           <div class="solution-link-card">
-            <a href="./Solutions/SecureHXLFoundations.html">
-                   Secure and Trusted Headless Foundation - Solution Blueprint &rarr;
-                </a>
-            </div>
-        </section>
-
-<!-- Section 12: Core Solution -->
-        <section id="headlessanalytics360-solutionblueprint">
-            <h2>Headless 360 Analytics - Solution Blueprint</h2>
-             <p>Delivering Governed Metrics, Semantic Models, and Real-Time Agentic Analytics via Headless 360</p>
-              <p>Headless analytics decouples business intelligence processing and metric definitions from static dashboards, exposing unified analytical models directly to autonomous AI agents, Model Context Protocol (MCP) clients, and headless experience layers. Built on the Headless 360 platform, Tableau Next exposes a standardized semantic layer and execution engine. This enables AI agents to query business-critical KPIs and execute data-driven actions while strictly honoring corporate governance rules.</p>
-           <div class="solution-link-card">
-            <a href="./Solutions/HeadlessDataAnalytics.html">
-                   Headless 360 Analytics - Solution Blueprint &rarr;
-                </a>
-            </div>
-        </section>
-
-
-<!-- Section HXL: Core Solution -->
-        <section id="hxlhowtobuild-solutionblueprint">
-            <h2>How to build Headless Experience Layer (HXL) - Solution Blueprint</h2>
-            <p>Delivering Rich Agentic UI and Headless Interactive Experiences via Custom Lightning Types, Components, Widgets, and Supported Channels</p>
-            <p>The Salesforce Headless Experience Layer (HXL) extends agentic capabilities beyond plain text conversations. By decoupling raw server execution from display rendering, HXL uses <strong>Custom Lightning Types</strong>, <strong>Components</strong>, and <strong>HXL Declarative Widgets</strong> to deliver rich, interactive user experiences. A single Apex action payload or Model Context Protocol (MCP) tool response can render native LWC components inside Salesforce apps and declarative HXL Widgets on external surfaces such as ChatGPT, Claude, Slack, or embedded web applications.</p>
-           <div class="solution-link-card">
-            <a href="./Solutions/HowtobuildSfHXL.html">
-                   How to build Headless Experience Layer (HXL) - Solution Blueprint &rarr;
-                </a>
-            </div>
-        </section>
+            <section id="af-salesandservice-data360">
+                <h2>Sales and Service with Data 360</h2>
+                <p>Unifying Sales Cloud opportunities and Service Cloud case resolutions with Data Cloud unified profiles for autonomous cross-cloud agentic workflows.</p>
+<pre><code>public class SalesServiceAgentConnector {
+    @InvocableMethod(label='Get Unified Customer Context' description='Retrieves unified sales and service metrics for agent grounding')
+    public static List&lt;CustomerContextResult&gt; getCustomerContext(List&lt;String&gt; accountIds) {
+        List&lt;CustomerContextResult&gt; results = new List&lt;CustomerContextResult&gt;();
+        for (String accId : accountIds) {
+            results.add(new CustomerContextResult(accId, 'Active Enterprise SLA', 450000.00, 0));
+        }
+        return results;
+    }
     
-       
-   </main>
+    public class CustomerContextResult {
+        @InvocableVariable public String accountId;
+        @InvocableVariable public String slaTier;
+        @InvocableVariable public Decimal openPipeline;
+        @InvocableVariable public Integer openCriticalCases;
+        public CustomerContextResult(String a, String s, Decimal p, Integer c) {
+            this.accountId = a; this.slaTier = s; this.openPipeline = p; this.openCriticalCases = c;
+        }
+    }
+}</code></pre>
+            </section>
 
+            <section id="lm-data360-solutionblueprint">
+                <h2>Loyalty Management and Data Cloud 360 Integration - Solution Blueprint</h2>
+                <p>Architecting real-time tier calculation, points accrual triggers, and hyper-personalized rewards delivery by binding Loyalty Management data models to Data Cloud 360.</p>
+            </section>
+
+            <section id="emaildelivery-mrktcloudnxt-solutionblueprint">
+                <h2>Enterprise Email Delivery Foundation on Marketing Cloud Next - Solution Blueprint</h2>
+                <p>Building scalable, transactional, and marketing email delivery infrastructure using Marketing Cloud Next, Data Cloud segments, and real-time event streaming.</p>
+            </section>
+
+            <!-- SECTION GROUP 2: SALESFORCE HXL - SOLUTION BLUEPRINT -->
+
+            <section id="af-headless360-usecases">
+                <h2>Agentforce Headless 360 Use Cases</h2>
+                <p>Exposing Agentforce AI capabilities and 360-degree customer data across custom frontends, third-party apps, and autonomous agent platforms.</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card bad">
+                        <h4>❌ Monolithic UI Coupling</h4>
+                        <p>Logic tied exclusively to standard CRM pages. Upgrades break custom web frontends, and external channels cannot trigger actions.</p>
+                    </div>
+                    <div class="comparison-card good">
+                        <h4> Headless 360 Decoupling</h4>
+                        <p>APIs, MCP endpoints, and unified semantic layers serve web frontends, mobile apps, and autonomous agents in parallel.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="datafoundationsforhxl-solutionblueprint">
+                <h2>Data Foundations for Headless Experience Layer - Solution Blueprint</h2>
+                <p>Building a robust Data Cloud and schema foundation to power real-time headless experiences and AI context resolution.</p>
+                
+                <div class="architecture-container">
+                    <div class="architecture-grid">
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Data Ingestion</strong>
+                                <span>Batch &amp; Streaming Data Streams</span>
+                            </div>
+                            <div class="arch-arrow">&rarr;</div>
+                            <div class="arch-node">
+                                <strong>Unified Profile (DMOs)</strong>
+                                <span>Data Model Objects &amp; Identity Resolution</span>
+                            </div>
+                        </div>
+                        <div class="arch-arrow vertical">&darr;</div>
+                        <div class="arch-row">
+                            <div class="arch-node">
+                                <strong>Headless API Services</strong>
+                                <span>GraphQL &amp; Real-Time Data APIs</span>
+                            </div>
+                            <div class="arch-arrow">&larr;</div>
+                            <div class="arch-node">
+                                <strong>Calculated Insights</strong>
+                                <span>Real-Time Business Metrics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="securehxlfoundations-solutionblueprint">
+                <h2>Secure and Trusted Headless Foundation - Solution Blueprint</h2>
+                <p>Establishing Zero-Trust Security, Scoped OAuth Token Policies, and Least-Privilege API Control for Headless Agents.</p>
+
+                <div class="warning-box">
+                    <h4>Security Precaution</h4>
+                    <p>Always avoid assigning generic System Administrator profiles to integration users. Require dedicated Integration Licenses with explicit Field-Level Security (FLS) boundaries.</p>
+                </div>
+
+<pre><code>@RestResource(urlMapping='/v1/headless/secureService/*')
+global with sharing class SecureHeadlessService {
+    @HttpPost
+    global static ResponseWrapper executeSecureAction(String recordId) {
+        if (!Schema.sObjectType.Account.isAccessible()) {
+            RestContext.response.statusCode = 403;
+            return new ResponseWrapper('ERROR', 'Access Denied');
+        }
+        return new ResponseWrapper('SUCCESS', 'Operation Completed');
+    }
+    global class ResponseWrapper {
+        public String status;
+        public String message;
+        public ResponseWrapper(String s, String m) { this.status = s; this.message = m; }
+    }
+}</code></pre>
+            </section>
+
+            <section id="headlessanalytics360-solutionblueprint">
+                <h2>Headless 360 Analytics Powered by Tableau Next - Solution Blueprint</h2>
+                <p>Delivering Governed Metrics, Semantic Data Models, and Real-Time Agentic Analytics via Tableau Next.</p>
+                <p>Headless analytics decouples metric calculations from static visual dashboards. Autonomous agents interact with Tableau Next MCP servers to retrieve verified corporate KPIs while strictly respecting row-level security.</p>
+            </section>
+
+            <section id="hxlhowtobuild-solutionblueprint">
+                <h2>Headless Experience Layer: Custom Types, Widgets &amp; Supported Channels</h2>
+                <p>Constructing rich agentic UI using Custom Lightning Types (<code class="inline">LightningTypeBundle</code>), LWC Overrides, and HXL Declarative Widgets (<code class="inline">UiWidgetBundle</code>).</p>
+
+                <h3>Step-by-Step Implementation Flow</h3>
+                <ul class="steps">
+                    <li>
+                        <span class="step-title">Step 1: Define Apex Data Model</span><br>
+                        Create an Apex class with <code class="inline">@AuraEnabled</code> fields representing the custom UI payload.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 2: Declare Custom Lightning Type</span><br>
+                        Define <code class="inline">schema.json</code> inside a <code class="inline">LightningTypeBundle</code> to map Apex structures.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 3: Configure Channel LWC Overrides</span><br>
+                        Place <code class="inline">renderer.json</code> inside channel subfolders (e.g., <code class="inline">lightningDesktopGenAi</code>) for in-app Salesforce experiences.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 4: Configure Cross-Platform HXL Widgets</span><br>
+                        Define root-level <code class="inline">renderer.json</code> and <code class="inline">UiWidgetBundle</code> artifacts to render declarative cards in external MCP clients like ChatGPT, Claude, and Slack.
+                    </li>
+                </ul>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
