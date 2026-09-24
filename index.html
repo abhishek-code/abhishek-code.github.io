@@ -379,6 +379,12 @@
                 <a href="#headlessanalytics360-solutionblueprint">Headless 360 Analytics Powered by Tableau Next - Solution Blueprint</a>
                 <a href="#hxlhowtobuild-solutionblueprint">Headless Experience Layer: Custom Types, Widgets &amp; Supported Channels</a>
             </div>
+
+           <div class="nav-group">
+                <div class="nav-group-title">Salesforce Agentforce Development - Solution Blueprint</div>
+                <a href="#af-troubleshooting">Troubleshooting Agent Behavior in Agentforce</a>
+           </div>
+            
         </nav>
     </aside>
 
@@ -650,6 +656,49 @@ global with sharing class SecureHeadlessService {
                     </li>
                 </ul>
             </section>
+
+
+            <!-- SECTION GROUP 3: SALESFORCE AGENTFORCE DEVELOPMENT- SOLUTION BLUEPRINT -->
+
+            <section id="af-troubleshooting">
+            <h2>Troubleshooting Agent Behavior in Agentforce</h2>
+            <p class="meta-info">A practical, step-by-step diagnostic guide for testing, fixing configuration & data, resolving routing & acting errors, grounding limits, and handling runtime integration issues.</p>
+                   <div class="solution-link-card">
+                <a href="./Solutions/AgentBehaviorTroubleShootingAgentforce.html">
+                  Troubleshooting Agent Behavior in Agentforce - Step by Step Diagnostic Framework &rarr;
+                </a>
+               </div>
+                
+                <h3>Step-by-Step Implementation Flow</h3>
+                <ul class="steps">
+                    <li>
+                        <span class="step-title">Step 1: Getting Started: Observability and Trace Logging Setup</span><br>
+                        Before analyzing behavior, establish an isolated testing environment and activate full execution trace logging in Agent Builder.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 2: Fixing Configuration and Data Issues</span><br>
+                        Validate that the Agent Definition metadata is properly constructed and that essential CRM records exist and are visible to the agent's execution context.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 3: Resolving Routing, Acting, and Prompting Issues</span><br>
+                        If the agent selects the wrong topic, skips an action, or responds unpredictably, the issue typically stems from ambiguous natural language descriptions or missing action constraints.
+                    </li>
+                    <li>
+                        <span class="step-title">Step 4: Troubleshooting Grounding, Limits, and Common Errors</span><br>
+                        Ensure that knowledge context, Data Cloud RAG queries, and token limits do not corrupt the reasoning process.
+                     </li>
+                    <li>
+                        <span class="step-title">Step 5: Resolving Runtime and Integration Issues</span><br>
+                        Runtime errors occur during Flow invocation, Apex class execution, or external REST API endpoint calls.                  
+                    </li>
+
+                </ul>
+            </section>
+
+
+
+
+            
         </main>
     </div>
 </body>
