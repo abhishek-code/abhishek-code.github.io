@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting Agent Behavior in Agentforce: End-to-End Diagnostic Guide</title>
+    <style>
+        :root {
+            --primary-color: #0176D3;
+            --secondary-color: #0b5cab;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #181818;
+            --text-light: #514f4d;
+            --border-color: #dddbda;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+            --accent-green: #2e844a;
+            --accent-amber: #dd7a00;
+            --accent-red: #c23934;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2.5rem 1rem;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .tag {
+            background-color: #e0f2fe;
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-top: 0.8rem;
+            font-size: 2.2rem;
+        }
+
+        .meta-info {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background-color: #f3f3f3;
+            color: #c23934;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.2rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            margin-bottom: 1rem;
+        }
+
+        .diagram-container {
+            background-color: #fafafa;
+            border: 1px dashed var(--border-color);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .step-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .step-item {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: var(--primary-color);
+            color: white;
+            width: 1.8rem;
+            height: 1.8rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .callout {
+            border-left: 4px solid var(--accent-amber);
+            background-color: #fff8f0;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            color: var(--accent-amber);
+            margin-bottom: 0.25rem;
+        }
+
+        .example-box {
+            border: 1px solid #cbe5ff;
+            background-color: #f0f7ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .example-header {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <span class="tag">Salesforce Agentforce Architecture</span>
+            <h1>Troubleshooting Agent Behavior in Agentforce</h1>
+            <p class="meta-info">A practical, step-by-step diagnostic guide for testing, fixing configuration & data, resolving routing & acting errors, grounding limits, and handling runtime integration issues.</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Section 1: End-to-End Architectural Blueprint -->
+        <div class="card">
+            <h2>1. End-to-End Agentforce Diagnostics Blueprint</h2>
+            <p>To accurately isolate agent behavioral anomalies, you must trace user prompts as they pass through the Agentforce reasoning engine, topic classifiers, data grounding pipelines, and action execution frameworks.</p>
+
+            <div class="diagram-container">
+                <pre>
++-----------------------------------------------------------------------------------+
+|                               USER INTERFACE / CHANNEL                            |
+|             (Experience Cloud / Service Console / WhatsApp / API)                 |
++-----------------------------------------------------------------------------------+
+                                          |
+                                   [ User Input ]
+                                          v
++-----------------------------------------------------------------------------------+
+|                        AGENTFORCE REASONING ENGINE LOGIC                          |
+|                                                                                   |
+|  1. Topic Classification & Scope Match                                           |
+|     └── Matches Prompt against Topic Natural Language Descriptions                |
+|                                                                                   |
+|  2. Plan Formulation & Action Selection                                           |
+|     └── Selects Apex / Flow / Prompt Template within active Topic                 |
+|                                                                                   |
+|  3. Context Grounding & Parameter Hydration                                       |
+|     └── Queries Data Cloud (UDI/RAG) / CRM Records / Context Session Tokens       |
+|                                                                                   |
+|  4. Safety & Authorization Guardrails                                             |
+|     └── Applies Agent User FLS/CRUD + Einstein Trust Layer Policies               |
++-----------------------------------------------------------------------------------+
+                                          |
+                    +---------------------+---------------------+
+                    |                                           |
+                    v                                           v
++---------------------------------------+   +---------------------------------------+
+|          ACTION EXECUTION             |   |        DATA & TRUST PIPELINE          |
+|  • Flow Execution Engine              |   |  • Einstein Trust Layer Guardrails    |
+|  • Apex Invocable Methods             |   |  • Data Cloud Unified Data Library    |
+|  • External Services (MuleSoft APIs)  |   |  • Event Monitoring Trace Logs        |
++---------------------------------------+   +---------------------------------------+
+                </pre>
+            </div>
+        </div>
+
+        <!-- Section 2: Scenario Baseline -->
+        <div class="card">
+            <h2>2. Test Scenario Baseline: Customer Service Refund Action</h2>
+            <p>Throughout this troubleshooting guide, we follow a concrete, real-world customer service scenario:</p>
+            <div class="example-box">
+                <div class="example-header">Scenario: Duplicate Charge Refund</div>
+                <p><strong>User Request:</strong> <em>"I was charged twice for order #ORD-99182. Please process a refund of $49.99 back to my credit card."</em></p>
+                <p><strong>Expected Outcome:</strong> The agent routes to the <code>Order_Management</code> topic, extracts <code>Order_Number</code> and <code>Amount</code>, calls the <code>Process_Customer_Refund</code> action, and returns a transaction confirmation.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Step-by-Step Diagnostic Framework -->
+        <div class="card">
+            <h2>3. Step-by-Step Diagnostic Framework</h2>
+
+            <ul class="step-list">
+
+                <!-- Step 1 -->
+                <li class="step-item">
+                    <div class="step-number">1</div>
+                    <h3>Getting Started: Observability and Trace Logging Setup</h3>
+                    <p>Before analyzing behavior, establish an isolated testing environment and activate full execution trace logging in Agent Builder.</p>
+                    <ul>
+                        <li><strong>Launch Agent Builder Debugger:</strong> Open Agent Builder and toggle the <strong>Trace Canvas</strong> sidebar.</li>
+                        <li><strong>Enable Extended Logging:</strong> Ensure Event Monitoring logging is enabled for Agentforce events (<code>AgentforceExecutionLog</code>).</li>
+                        <li><strong>Simulate User Context:</strong> Set up test records for Contact, Account, and Order <code>ORD-99182</code> to populate session parameters.</li>
+                    </ul>
+                </li>
+
+                <!-- Step 2 -->
+                <li class="step-item">
+                    <div class="step-number">2</div>
+                    <h3>Fixing Configuration and Data Issues</h3>
+                    <p>Validate that the Agent Definition metadata is properly constructed and that essential CRM records exist and are visible to the agent's execution context.</p>
+                    <p><strong>Common Failures:</strong> Missing record IDs in test context, inactive Agent assignment, or missing object access.</p>
+                    
+                    <div class="example-box">
+                        <div class="example-header">Example: Data Access & User Context Check</div>
+                        <p>Verify that the <strong>Agentforce Context User</strong> profile or permission set contains appropriate object-level access:</p>
+                        <pre>
+SOQL Verification Query:
+SELECT Id, Status__c, TotalAmount__c, AccountId 
+FROM Order 
+WHERE OrderNumber = 'ORD-99182'
+                        </pre>
+                        <p>If the query returns no records when executed under the Agent Context User, the action cannot inspect or refund the order due to record-level sharing or FLS restrictions.</p>
+                    </div>
+                </li>
+
+                <!-- Step 3 -->
+                <li class="step-item">
+                    <div class="step-number">3</div>
+                    <h3>Resolving Routing, Acting, and Prompting Issues</h3>
+                    <p>If the agent selects the wrong topic, skips an action, or responds unpredictably, the issue typically stems from ambiguous natural language descriptions or missing action constraints.</p>
+
+                    <h4>A. Topic Routing Misclassification</h4>
+                    <p>Agents classify user intent against Topic Descriptions. If two topic descriptions overlap, routing fails.</p>
+
+                    <div class="example-box">
+                        <div class="example-header">Example: Fixing Topic Routing Descriptions</div>
+                        <p><strong>Ambiguous Description (Causes Failure):</strong></p>
+                        <pre>Handles general questions and customer support regarding orders.</pre>
+                        <p><strong>Remediated Description (Clear Scope & Boundaries):</strong></p>
+                        <pre>
+Handles explicit order processing actions including issuing refunds, processing duplicate payment corrections, canceling items, and adjusting billing discrepancies for existing orders.
+                        </pre>
+                    </div>
+
+                    <h4>B. Action Parameter Extraction (Acting & Prompting)</h4>
+                    <p>When the topic is correct but the agent fails to run the action, review parameter descriptions and instructions.</p>
+
+                    <div class="example-box">
+                        <div class="example-header">Example: Action Input Parameter Definition</div>
+                        <pre>
+Action: Process_Customer_Refund
+Parameter Name: Order_Identifier
+Description: The alphanumeric order code starting with 'ORD-' extracted from the user query.
+Requirement: Required before executing the refund flow.
+                        </pre>
+                    </div>
+                </li>
+
+                <!-- Step 4 -->
+                <li class="step-item">
+                    <div class="step-number">4</div>
+                    <h3>Troubleshooting Grounding, Limits, and Common Errors</h3>
+                    <p>Ensure that knowledge context, Data Cloud RAG queries, and token limits do not corrupt the reasoning process.</p>
+
+                    <h4>A. Grounding & RAG Retrieval Failures</h4>
+                    <p>If the agent fabricates policies or reports missing knowledge, inspect the underlying Vector Search configuration and search filters.</p>
+
+                    <div class="example-box">
+                        <div class="example-header">Example: Knowledge Grounding Diagnostic</div>
+                        <p>Check if the Refund Policy article is published and indexed in Data Cloud Vector Database:</p>
+                        <pre>
+Status: Published
+Searchable Scope: Service Knowledge Index
+Filter Constraint: Category = 'Billing_and_Refunds'
+                        </pre>
+                    </div>
+
+                    <h4>B. Token Limits & Guardrail Errors</h4>
+                    <p>When prompts exceed token windows or trigger safety rules, the Einstein Trust Layer suppresses execution.</p>
+                    <ul>
+                        <li><strong>Toxicity & PII Masking:</strong> Review if masking rules replace valid IDs (e.g., masking credit card numbers or order codes as <code>[REDACTED_NUMBER]</code>).</li>
+                        <li><strong>Loop Detection:</strong> If an action calls itself repeatedly, lower the maximum plan iteration threshold.</li>
+                    </ul>
+                </li>
+
+                <!-- Step 5 -->
+                <li class="step-item">
+                    <div class="step-number">5</div>
+                    <h3>Resolving Runtime and Integration Issues</h3>
+                    <p>Runtime errors occur during Flow invocation, Apex class execution, or external REST API endpoint calls.</p>
+
+                    <div class="example-box">
+                        <div class="example-header">Example: Debugging Invocable Apex / Flow Errors</div>
+                        <p>If the trace log displays <code>EXCEEDED_MAX_ELEMENTS</code> or <code>INVOCATION_EXCEPTION</code>, check the underlying Flow logic:</p>
+                        <pre>
+Error Trace:
+[Action: Process_Customer_Refund] -> Flow Exception: 
+System.LimitException: Too many SOQL queries: 101
+
+Remediation:
+Bulkify the Apex controller backing the Invocable Method or ensure the Flow does not query inside a loop.
+                        </pre>
+                    </div>
+                </li>
+
+            </ul>
+        </li>
+    </div>
+
+    <!-- Section 4: Quick Reference Matrix -->
+    <div class="card">
+        <h2>4. Troubleshooting Diagnostic Reference Matrix</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Observed Behavior</th>
+                    <th>Root Cause</th>
+                    <th>Resolution</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Configuration & Data</strong></td>
+                    <td>Agent says "I don't have access to that information."</td>
+                    <td>Context User lacks FLS/CRUD or sharing rights.</td>
+                    <td>Assign required Permission Set to Agent Context User.</td>
+                </tr>
+                <tr>
+                    <td><strong>Routing</strong></td>
+                    <td>Agent routes refund query to FAQ topic.</td>
+                    <td>Topic description is too broad or ambiguous.</td>
+                    <td>Add specific keywords and scope boundaries to Topic Description.</td>
+                </tr>
+                <tr>
+                    <td><strong>Acting</strong></td>
+                    <td>Agent asks user for details already provided.</td>
+                    <td>Parameter description lacks extraction context.</td>
+                    <td>Update action input description to explicitly specify formatting.</td>
+                </tr>
+                <tr>
+                    <td><strong>Grounding</strong></td>
+                    <td>Agent hallucinates non-existent refund timelines.</td>
+                    <td>RAG index missing or out-of-date article.</td>
+                    <td>Re-index Knowledge Articles in Data Cloud search index.</td>
+                </tr>
+                <tr>
+                    <td><strong>Runtime</strong></td>
+                    <td>Trace shows Flow failure or timeout.</td>
+                    <td>Flow error or external API integration timeout.</td>
+                    <td>Inspect Debug Logs in Setup -> Debug Logs for the Agent User.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<footer>
+    <p>Documented as part of Salesforce Agentforce Troubleshooting Best Practices | Solution Guide</p>
+</footer>
+
+</body>
+</html>
